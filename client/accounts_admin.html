@@ -1,0 +1,43 @@
+<template name="accountsAdmin">
+	<div class="row accounts-search">
+		<div class="col-sm-offset-4 col-sm-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
+			<div class="input-group">
+				<input type="text" class="form-control search-input" value="{{searchFilter}}">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+				</span>
+			</div>
+		</div>
+	</div>
+	<table class='table table-striped'>
+		<thead>
+			<th></th>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Roles</th>
+		</thead>
+		{{#each users}}
+		<tr {{#if myself _id}} class="info" {{/if}}>
+			<td>
+				{{#unless myself _id}}
+					<span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
+					<span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
+					<span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
+				{{/unless}}
+			</td>
+			<td>
+				{{#if profile.name}}
+					{{profile.name}}
+				{{else}}
+					{{email}}
+				{{/if}}
+			</td>
+			<td>{{email}}</td>
+			<td>{{roles}}</td>
+		</tr>
+		{{/each}}
+	</table>
+	{{> deleteAccountModal}}
+	{{> infoAccountModal}}
+	{{> updateAccountModal}}
+</template>

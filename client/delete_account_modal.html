@@ -1,0 +1,17 @@
+<template name="deleteAccountModal">
+	<div id="deleteaccount" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
+		{{> deleteAccountModalInner}}
+	</div>
+</template>
+
+<template name="deleteAccountModalInner">
+	{{#with userInScope}}
+	 	<div class="modal-body">
+	 		<h4>Are you sure you want to delete {{email}}?</h4>
+	 	</div>
+	 	<div class="modal-footer">
+			<button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+			<button type="button" class="btn btn-danger">Delete</button>
+		</div>
+	{{/with}}
+</template>

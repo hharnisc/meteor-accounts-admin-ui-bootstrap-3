@@ -1,0 +1,44 @@
+<template name="updateAccountModal">
+	<div id="updateaccount" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
+		{{> updateAccountModalInner}}
+	</div>
+</template>
+
+<template name="updateAccountModalInner">
+	{{#with userInScope}}
+		<div class="modal-header">
+			<h4>Update {{email}}</h4>
+		</div>
+	 	<div class="modal-body">
+	 		{{#if roles}}
+		 		<ul class="list-group">
+					{{#each roles}}
+						<li class="list-group-item">
+							<a href="#" class="remove-role" data-user-id="{{../_id}}"><span class="glyphicon glyphicon-minus text-danger"></span></a>
+							<span class="pull-right">{{this}}</span>
+						</li>
+					{{/each}}
+				</ul>
+			{{else}}
+				This account has no roles.
+			{{/if}}
+			{{#if unsetRoles}}
+			<div class="btn-group clearfix full-width">
+				<button type="button" class="btn btn-success dropdown-toggle pull-right" data-toggle="dropdown">
+					Add Role <span class="glyphicon glyphicon-plus"></span>
+				</button>
+				<ul class="dropdown-menu pull-right" role="menu">
+					{{#each unsetRoles}}
+						<li><a href="#" class="add-role" data-user-id="{{../_id}}">{{this}}</a></li>
+					{{/each}}
+				</ul>
+			</div>
+			{{else}}
+			<em>All roles already set.</em>
+			{{/if}}
+	 	</div>
+	 	<div class="modal-footer">
+			<button type="button" data-dismiss="modal" class="btn btn-primary">Done</button>
+		</div>
+	{{/with}}
+</template>
