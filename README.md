@@ -36,7 +36,7 @@ $ mrt remove autopublish
 $ mrt remove insecure
 ```
 
-** app.js **
+**app.js**
 ```javascript
 if (Meteor.isServer) {
 	Meteor.startup(function () {
@@ -59,7 +59,7 @@ if (Meteor.isClient) {
 }
 ```
 
-** app.html **
+**app.html**
 ```html
 <head>
   <title>Accounts Admin</title>
@@ -107,7 +107,7 @@ At this point you should see the UI.  Signout and add a few more users so you ca
 
 This tool plays nice with Iron Router package, add to following configuration to your router.
 
-** router.js **
+**router.js**
 ```javascript
 Router.configure({
 	layoutTemplate: 'layout'
