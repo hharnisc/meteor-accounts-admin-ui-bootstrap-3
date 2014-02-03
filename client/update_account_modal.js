@@ -35,9 +35,13 @@ Template.updateAccountModalInner.events({
 		var role = this.toString();
 		var userId = event.currentTarget.getAttribute('data-user-id');
 		Meteor.call('addUserRole', userId, role, function(error) {
-			//TODO: use meteor error package
 			if (error) {
-				Log('Error: ' + error.reason);
+				// optionally use a meteor errors package
+				if (typeof Errors === "undefined")
+					Log.error('Error: ' + error.reason);
+				else {
+					Errors.throw(error.reason);
+				}
 			}
 
 			//update the data in the session variable to update modal templates

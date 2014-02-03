@@ -32,8 +32,6 @@ Template.deleteAccountModalInner.events({
 				else {
 					Errors.throw(error.reason);
 				}
-			} else {
-
 			}
 			$("#deleteaccount").modal("hide");
 		});
