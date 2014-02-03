@@ -43,9 +43,13 @@ if (Meteor.isServer) {
 		// bootstrap the admin user if they exist -- You'll be replacing the id later
 		if (Meteor.users.findOne("your_admin_user_id"))
 			Roles.addUsersToRoles("your_admin_user_id", ['admin']);
-		// create a couple of roles
-		Roles.createRole("secret");
-        Roles.createRole("double-secret");
+
+		// create a couple of roles if they don't already exist
+		if(!Meteor.roles.findOne({name: "secret"}))
+            Roles.createRole("secret");
+
+        if(!Meteor.roles.findOne({name: "double-secret"}))
+            Roles.createRole("double-secret");
 	});
 }
 
