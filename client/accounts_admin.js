@@ -1,8 +1,6 @@
 Template.accountsAdmin.helpers({
 	users: function() {
-		if (!Roles.userIsInRole(Meteor.user(), ['admin']))
-			return null;
-		return Meteor.users.find({}, {sort: {_id:-1}});
+		return filteredUserQuery(Meteor.userId(), Session.get("userFilter"));
 	},
 
 	email: function () {
@@ -23,6 +21,7 @@ Template.accountsAdmin.helpers({
 		}
 		return "";
 	},
+
 	searchFilter: function() {
 		return Session.get("userFilter");
 	},
@@ -32,14 +31,15 @@ Template.accountsAdmin.helpers({
 	}
 });
 
+// search no more than 2 times per second
+var setUserFilter = _.throttle(function(template) {
+	var search = template.find(".search-input-filter").value;
+	Session.set("userFilter", search);
+}, 500);
+
 Template.accountsAdmin.events({
-	'keyup .search-input': function(event, template) {
-		// search no more than 1 time per second
-        var setUserFilter = _.throttle(function() {
-			var search = template.find(".search-input").value;
-			Session.set("userFilter", search);
-        }, 1000);
-        setUserFilter();
+	'keyup .search-input-filter': function(event, template) {
+        setUserFilter(template);
         return false;
     },
 
@@ -57,7 +57,7 @@ Template.accountsAdmin.events({
 });
 
 Template.accountsAdmin.rendered = function() {
-	var searchElement = document.getElementsByClassName('search-input');
+	var searchElement = document.getElementsByClassName('search-input-filter');
 	if(!searchElement)
 		return;
 	var filterValue = Session.get("userFilter");

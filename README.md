@@ -11,13 +11,17 @@ A roles based account management system using bootstrap 3 for Meteor.
 
 ## TODO
 
-- Implement UI to create/remove roles (currently done at Meteor.startup)
+- ~~Implement UI to create/remove roles (currently done at Meteor.startup)~~ DONE
 - Implement pagination (currently relies on search to find users)
 - Write tests
 
 ## History
 
-**Latest Version:** 0.1.0
+**Latest Version:** 0.2.0
+
+Added UI to create/remove roles
+
+**Version:** 0.1.0
 
 Created a basic UI to find users, delete users, and modify roles.
 
@@ -44,7 +48,7 @@ if (Meteor.isServer) {
 		if (Meteor.users.findOne("your_admin_user_id"))
 			Roles.addUsersToRoles("your_admin_user_id", ['admin']);
 
-		// create a couple of roles if they don't already exist
+		// create a couple of roles if they don't already exist (THESE ARE NOT NEEDED -- just for the demo)
 		if(!Meteor.roles.findOne({name: "secret"}))
             Roles.createRole("secret");
 
@@ -105,7 +109,8 @@ After you edit app.js and app.html you need to create a new user and then set th
 3. Copy the user id and paste it into to "your_admin_user_id" in app.js created above.
 4. Restart meteor 
 
-At this point you should see the UI.  Signout and add a few more users so you can play with the roles.  (You can't edit your own roles or delete yourself)
+At this point you should see the UI.  Signout and add a few more users so you can play with the roles. You can add and 
+remove roles all through the UI.
 
 ## Iron Router Integration
 
