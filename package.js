@@ -5,7 +5,6 @@ Package.describe({
 Package.on_use(function (api, where) {
 	api.use('standard-app-packages', ['client', 'server']);
 	api.use('bootstrap-3', 'client');
-	api.use('bootstrap-modal', 'client');
 	api.use('roles', ['client', 'server']);
 
 	api.add_files('libs/user_query.js', ['client', 'server']);
