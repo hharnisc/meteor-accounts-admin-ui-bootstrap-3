@@ -17,7 +17,15 @@ A roles based account management system using bootstrap 3 for Meteor.
 
 ## History
 
-**Latest Version:** 0.2.0
+**Latest Version:** 0.2.2
+
+Fixed bugs due to fallout from removing bootstrap-modal
+
+**Version:** 0.2.1
+
+Removed dependency to bootstrap-modal
+
+**Version:** 0.2.0
 
 Added UI to create/remove roles
 
