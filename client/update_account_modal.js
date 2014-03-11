@@ -66,5 +66,21 @@ Template.updateAccountModalInner.events({
 			//update the data in the session variable to update modal templates
 			Session.set('userInScope', Meteor.users.findOne(userId));
 		});
+	},
+
+	'change .admin-user-info' : function(event, template) {
+
+		var ele = event.currentTarget;
+		var userId = ele.getAttribute('data-user-id');
+
+		Meteor.call('updateUserInfo', userId, ele.name, ele.value, function(error) {
+			if (error)
+			{
+				if (typeof Errors === "undefined") Log.error('Error: ' + error.reason);
+				else Errors.throw(error.reason);
+				return;
+			}
+			Session.set('userInScope', Meteor.users.findOne(userId));
+		});
 	}
 });
