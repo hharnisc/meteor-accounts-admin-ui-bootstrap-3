@@ -8,6 +8,7 @@ A roles based account management system using bootstrap 3 for Meteor.
 - [History](#history)
 - [Quick Start](#quick-start)
 - [Iron Router Integration](#iron-router-integration)
+- [Contributing](#contributing)
 
 ## TODO
 
@@ -17,7 +18,11 @@ A roles based account management system using bootstrap 3 for Meteor.
 
 ## History
 
-**Latest Version:** 0.2.2
+**Latest Version:** 0.2.3
+
+Now supports changing usernames from admin interface (thanks to [@djkmiles](https://github.com/djkmiles)!)
+
+**Version:** 0.2.2
 
 Fixed bugs due to fallout from removing bootstrap-modal
 
@@ -148,3 +153,10 @@ Router.map(function() {
 	});
 });
 ```
+
+## Contributing
+
+If you've got a change you think would benefit the community send me a pull request.
+
+**Contributors**
+[@djkmiles](https://github.com/djkmiles)
