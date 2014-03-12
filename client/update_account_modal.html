@@ -13,14 +13,15 @@
 		<div class="modal-header">
 			<h4>Update {{email}}</h4>
 		</div>
-	 	<div class="modal-body">
-	 		<div class="form-group">
-	 		<div class="input-group">
-  			<span class="input-group-addon">Name</span> <input data-user-id="{{_id}}" class="form-control admin-user-info" name="profile.name" value="{{profile.name}}" placeholder="{{email}}">
-  			</div>
-  			</div>
-	 		{{#if roles}}
-		 		<ul class="list-group">
+		<div class="modal-body">
+			<div class="form-group">
+				<div class="input-group">
+					<span class="input-group-addon">Name</span>
+					<input data-user-id="{{_id}}" class="form-control admin-user-info" name="profile.name" value="{{profile.name}}" placeholder="{{email}}">
+				</div>
+			</div>
+			{{#if roles}}
+				<ul class="list-group">
 					{{#each roles}}
 						<li class="list-group-item">
 							<button data-user-id="{{../_id}}" class="btn btn-danger btn-xs remove-role" type="button">Remove</button>
@@ -45,8 +46,8 @@
 			{{else}}
 			<em>All roles already set.</em>
 			{{/if}}
-	 	</div>
-	 	<div class="modal-footer">
+		</div>
+		<div class="modal-footer">
 			<button type="button" data-dismiss="modal" class="btn btn-primary">Done</button>
 		</div>
 	{{/with}}
