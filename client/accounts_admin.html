@@ -18,7 +18,7 @@
 			<th>Roles</th>
 		</thead>
 		{{#each users}}
-		<tr {{#if myself _id}} class="info" {{/if}}>
+		<tr class="{{#if myself _id}}info{{/if}}">
 			<td>
 				{{#unless myself _id}}
 					<span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
