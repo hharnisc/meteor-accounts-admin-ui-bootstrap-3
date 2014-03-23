@@ -20,29 +20,29 @@ A roles based account management system using bootstrap 3 for Meteor.
 
 **Latest Version:** 0.2.4
 
-Support [changes made in Meteor 0.8.0-rc0](https://github.com/meteor/meteor/issues/1930)
-Fixes [Issue #7](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/7)
-Update to bootstrap-3.1.1
+- Support [changes made in Meteor 0.8.0-rc0](https://github.com/meteor/meteor/issues/1930)
+- Fixes [Issue #7](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/7)
+- Update to bootstrap-3.1.1
 
 **Version:** 0.2.3
 
-Now supports changing usernames from admin interface (thanks to [@djkmiles](https://github.com/djkmiles)!)
+- Now supports changing usernames from admin interface (thanks to [@djkmiles](https://github.com/djkmiles)!)
 
 **Version:** 0.2.2
 
-Fixed bugs due to fallout from removing bootstrap-modal
+- Fixed bugs due to fallout from removing bootstrap-modal
 
 **Version:** 0.2.1
 
-Removed dependency to bootstrap-modal
+- Removed dependency to bootstrap-modal
 
 **Version:** 0.2.0
 
-Added UI to create/remove roles
+- Added UI to create/remove roles
 
 **Version:** 0.1.0
 
-Created a basic UI to find users, delete users, and modify roles.
+- Created a basic UI to find users, delete users, and modify roles.
 
 ## Quick Start
 
