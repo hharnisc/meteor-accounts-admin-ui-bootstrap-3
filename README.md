@@ -134,6 +134,7 @@ remove roles all through the UI.
 ## Iron Router Integration
 
 This tool plays nice with Iron Router package, add to following configuration to your router.
+Or take a look at this [working example](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3-demo).
 
 **router.js**
 ```javascript
