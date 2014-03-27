@@ -102,5 +102,14 @@ Meteor.methods({
 		obj[property] = value;
 		Meteor.users.update({_id: id}, {$set: obj});
 
+	},
+
+	setUserPassword: function(userId, password) {
+		var user = Meteor.user();
+		if (!user || !Roles.userIsInRole(user, ['admin']))
+			throw new Meteor.Error(401, "You need to be an admin to set user password.");
+
+		// set user password
+		Accounts.setPassword(userId, password);
 	}
 });
