@@ -82,5 +82,30 @@ Template.updateAccountModalInner.events({
 			}
 			Session.set('userInScope', Meteor.users.findOne(userId));
 		});
-	}
+	},
+
+	'click .set-password': function(event, template) {
+		var userId = event.currentTarget.getAttribute('data-user-id');
+		var password = $('input.password').val();
+
+		if (!password) {
+			alert('Must enter a password!');
+		}
+
+		console.log( 'setting password: ', userId, password, event, template );
+
+		Meteor.call('setUserPassword', userId, password, function(error) {
+			if (error) {
+				// optionally use a meteor errors package
+				if (typeof Errors === "undefined")
+					Log.error('Error: ' + error.reason);
+				else {
+					Errors.throw(error.reason);
+				}
+			}
+
+			//update the data in the session variable to update modal templates
+			Session.set('userInScope', Meteor.users.findOne(userId));
+		});
+	},
 });

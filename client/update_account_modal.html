@@ -33,7 +33,7 @@
 				This account has no roles.
 			{{/if}}
 			{{#if unsetRoles}}
-			<div class="btn-group clearfix full-width">
+			<div class="btn-group clearfix full-width form-group">
 				<button type="button" class="btn btn-success dropdown-toggle pull-right" data-toggle="dropdown">
 					<span class="glyphicon glyphicon-plus"></span> Add Role 
 				</button>
@@ -46,6 +46,15 @@
 			{{else}}
 			<em>All roles already set.</em>
 			{{/if}}
+
+			<div class="form-inline input-group">
+				<input class="form-control password">
+				<span class="input-group-btn">
+					<button type="button" data-user-id="{{_id}}" class="btn btn-success pull-right set-password">
+						Set Password
+					</button>
+				</span>
+			</div>
 		</div>
 		<div class="modal-footer">
 			<button type="button" data-dismiss="modal" class="btn btn-primary">Done</button>
