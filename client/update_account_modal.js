@@ -92,8 +92,6 @@ Template.updateAccountModalInner.events({
 			alert('Must enter a password!');
 		}
 
-		console.log( 'setting password: ', userId, password, event, template );
-
 		Meteor.call('setUserPassword', userId, password, function(error) {
 			if (error) {
 				// optionally use a meteor errors package
