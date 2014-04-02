@@ -1,24 +1,24 @@
 <template name="accountsAdmin">
-	<div class="row accounts-search">
-		<div class="col-sm-offset-4 col-sm-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
-			<div class="input-group">
-				<input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
-				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-					<button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>
-				</span>
-			</div>
-		</div>
-	</div>
-	<table class='table table-striped'>
-		<thead>
+    <div class="row accounts-search">
+        <div class="col-sm-offset-4 col-sm-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
+            <div class="input-group">
+                <input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                    <button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <table class='table table-striped'>
+        <thead>
             <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Roles</th>
             </tr>
-		</thead>
+        </thead>
         <tbody>
             {{#each users}}
                 <tr class="{{#if myself _id}}info{{/if}}">
@@ -41,9 +41,9 @@
                 </tr>
             {{/each}}
         </tbody>
-	</table>
-	{{> updateRolesModal}}
-	{{> deleteAccountModal}}
-	{{> infoAccountModal}}
-	{{> updateAccountModal}}
+    </table>
+    {{> updateRolesModal}}
+    {{> deleteAccountModal}}
+    {{> infoAccountModal}}
+    {{> updateAccountModal}}
 </template>
