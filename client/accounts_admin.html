@@ -12,31 +12,35 @@
 	</div>
 	<table class='table table-striped'>
 		<thead>
-			<th></th>
-			<th>Name</th>
-			<th>Email</th>
-			<th>Roles</th>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Roles</th>
+            </tr>
 		</thead>
-		{{#each users}}
-		<tr class="{{#if myself _id}}info{{/if}}">
-			<td>
-				{{#unless myself _id}}
-					<span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
-					<span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
-					<span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
-				{{/unless}}
-			</td>
-			<td>
-				{{#if profile.name}}
-					{{profile.name}}
-				{{else}}
-					{{email}}
-				{{/if}}
-			</td>
-			<td>{{email}}</td>
-			<td>{{roles}}</td>
-		</tr>
-		{{/each}}
+        <tbody>
+            {{#each users}}
+                <tr class="{{#if myself _id}}info{{/if}}">
+                    <td>
+                        {{#unless myself _id}}
+                            <span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
+                            <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
+                            <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
+                        {{/unless}}
+                    </td>
+                    <td>
+                        {{#if profile.name}}
+                            {{profile.name}}
+                        {{else}}
+                            {{email}}
+                        {{/if}}
+                    </td>
+                    <td>{{email}}</td>
+                    <td>{{roles}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
 	</table>
 	{{> updateRolesModal}}
 	{{> deleteAccountModal}}
