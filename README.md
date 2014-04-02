@@ -108,7 +108,7 @@ if (Meteor.isClient) {
             <ul class="nav navbar-nav">  
             </ul>
             <ul class="nav navbar-nav navbar-right">
-            {{ loginButtons }}
+            {{> loginButtons }}
             </ul>
         </div>
     </div>
@@ -156,7 +156,7 @@ Router.map(function() {
 	this.route('admin', {
 		path:'/admin',
 		template: 'accountsAdmin',
-		before: function() {
+		onBeforeAction: function() {
 			if(!Roles.userIsInRole(Meteor.user(), ['admin'])) {
 				Log('Redirecting');
 				this.redirect('/');
