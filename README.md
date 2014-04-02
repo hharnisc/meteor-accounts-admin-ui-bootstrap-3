@@ -13,12 +13,17 @@ A roles based account management system using bootstrap 3 for Meteor.
 ## TODO
 
 - ~~Implement UI to create/remove roles (currently done at Meteor.startup)~~ DONE
+- Configurable fields
 - Implement pagination (currently relies on search to find users)
 - Write tests
 
 ## History
 
-**Latest Version:** 0.2.4
+**Latest Version:** 0.2.5
+
+- Bump roles version; v1.2.8 is Blaze-compatible (thanks to [@alanning](https://github.com/alanning)!)
+
+**Version:** 0.2.4
 
 - Support [changes made in Meteor 0.8.0-rc0](https://github.com/meteor/meteor/issues/1930)
 - Fixes [Issue #7](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/7)
@@ -166,4 +171,5 @@ Router.map(function() {
 If you've got a change you think would benefit the community send me a pull request.
 
 **Contributors**
-[@djkmiles](https://github.com/djkmiles)
+- [@djkmiles](https://github.com/djkmiles)
+- [@alanning](https://github.com/alanning)
