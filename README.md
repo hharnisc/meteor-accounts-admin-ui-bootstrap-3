@@ -157,10 +157,12 @@ Router.map(function() {
 		path:'/admin',
 		template: 'accountsAdmin',
 		onBeforeAction: function() {
-			if(!Roles.userIsInRole(Meteor.user(), ['admin'])) {
-				Log('Redirecting');
-				this.redirect('/');
-			}
+			if (Meteor.loggingIn()) {
+                this.render(this.loadingTemplate);
+            } else if(!Roles.userIsInRole(Meteor.user(), ['admin'])) {
+                console.log('redirecting');
+                this.redirect('/');
+            }
 		}
 	});
 });
