@@ -62,6 +62,37 @@ Meteor.methods({
 		Roles.createRole(role);
 	},
 
+	addUser: function(username,password1,password2) {
+		var user = Meteor.user();
+
+		// check that passwords match
+		if (password1 != password2)
+			throw new Meteor.Error(422, 'Passwords don\'t match.');
+
+		username = username.trim();
+		password1 = password1.trim();
+		password2 = password2.trim();
+
+		var newUser = {
+			'username': username,
+			'password': password1,
+			'profile': {
+				'name': username
+			}
+		}
+		
+		if (!user || !Roles.userIsInRole(user, ['admin']))
+			throw new Meteor.Error(401, "You need to be an admin to add a user.");
+		
+		// handle existing user
+		if (Meteor.users.find({username: username}).count() > 0 )
+			throw new Meteor.Error(422, 'User ' + newUser + ' already exists.');
+
+		// finally, create the user
+		Accounts.createUser(newUser);
+		
+	},
+
 	removeRole: function(role) {
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))

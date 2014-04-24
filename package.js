@@ -20,6 +20,8 @@ Package.on_use(function (api, where) {
 	api.add_files('client/update_account_modal.js', 'client');
 	api.add_files('client/update_roles_modal.html', 'client');
 	api.add_files('client/update_roles_modal.js', 'client');
+	api.add_files('client/add_users_modal.html', 'client');
+	api.add_files('client/add_users_modal.js', 'client');
 
 	api.add_files('style/style.css', 'client');
 
