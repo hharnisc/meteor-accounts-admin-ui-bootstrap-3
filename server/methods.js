@@ -1,17 +1,20 @@
 Meteor.methods({
 	deleteUser: function(userId) {
+    check(userId, String);
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to delete a user.");
 
 		if (user._id == userId)
 			throw new Meteor.Error(422, 'You can\'t delete yourself.');
-		
+
 		// remove the user
 		Meteor.users.remove(userId);
 	},
 
 	addUserRole: function(userId, role) {
+    check(userId, String);
+    check(role, String);
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
@@ -32,6 +35,8 @@ Meteor.methods({
 	},
 
 	removeUserRole: function(userId, role) {
+    check(userId, String);
+    check(role, String);
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
@@ -51,6 +56,7 @@ Meteor.methods({
 	},
 
 	addRole: function(role) {
+    check(role, String);
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
@@ -63,6 +69,7 @@ Meteor.methods({
 	},
 
 	removeRole: function(role) {
+    check(role, String);
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
@@ -91,6 +98,10 @@ Meteor.methods({
 	},
 
 	updateUserInfo: function(id, property, value) {
+    check(id, String);
+    check(property, String);
+    //Giving the value a range of possible safe values
+    check(value, Match.OneOf(String, Number, Boolean, Date, undefined, null));
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
@@ -102,5 +113,21 @@ Meteor.methods({
 		obj[property] = value;
 		Meteor.users.update({_id: id}, {$set: obj});
 
-	}
+	},
+
+  //Inspired by: https://dweldon.silvrback.com/impersonating-a-user
+  impersonateUser: function(targetUserId) {
+    check(targetUserId, String);
+
+    var user = Meteor.user();
+    if (!user || !Roles.userIsInRole(user, ['admin']))
+      throw new Meteor.Error(401, "You need to be an admin to impersonate a user.");
+
+    if (! Meteor.users.findOne(targetUserId))
+      throw new Meteor.Error(422, "Unable to find targetUserId to impersonate: " + targetUserId);
+
+    this.setUserId(targetUserId);
+
+  },
+
 });

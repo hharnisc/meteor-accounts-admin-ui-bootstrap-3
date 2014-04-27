@@ -1,4 +1,5 @@
 <template name="accountsAdmin">
+
     <div class="row accounts-search">
         <div class="col-sm-offset-4 col-sm-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
             <div class="input-group">
@@ -27,6 +28,7 @@
                             <span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
                             <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
                             <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
+                            <span data-toggle="modal" href="#impersonateaccount" class="glyphicon glyphicon-eye-open clickable"></span>
                         {{/unless}}
                     </td>
                     <td>
@@ -46,4 +48,6 @@
     {{> deleteAccountModal}}
     {{> infoAccountModal}}
     {{> updateAccountModal}}
+    {{> impersonateAccountModal}}
 </template>
+

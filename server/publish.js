@@ -3,5 +3,6 @@ Meteor.publish('roles', function (){
 });
 
 Meteor.publish('filteredUsers', function(filter) {
+  check(filter, Match.OneOf(String, RegExp, null));
 	return filteredUserQuery(this.userId, filter);
 });

@@ -39,20 +39,24 @@ var setUserFilter = _.throttle(function(template) {
 
 Template.accountsAdmin.events({
 	'keyup .search-input-filter': function(event, template) {
-        setUserFilter(template);
-        return false;
+      setUserFilter(template);
+      return false;
     },
 
     'click .glyphicon-trash': function(event, template) {
-		Session.set('userInScope', this);
+		  Session.set('userInScope', this);
     },
 
     'click .glyphicon-info-sign': function(event, template) {
-		Session.set('userInScope', this);
+		  Session.set('userInScope', this);
     },
 
     'click .glyphicon-pencil': function(event, template) {
-		Session.set('userInScope', this);
+		  Session.set('userInScope', this);
+    },
+
+    'click .glyphicon-eye-open': function(event, template) {
+      Session.set('userInScope', this);
     }
 });
 
