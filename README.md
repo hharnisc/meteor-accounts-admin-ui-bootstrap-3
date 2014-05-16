@@ -225,7 +225,7 @@ a boolean indicating if they are logged in now.  Enable with this configuration:
 accountsAdminUiConfiguration = {
   userStatus: true, //if true and user-status pacakge installed, this will show last login and current login status
 };
-
+```
 
 
 
