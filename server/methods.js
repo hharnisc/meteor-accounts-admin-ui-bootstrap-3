@@ -126,7 +126,12 @@ Meteor.methods({
     if (! Meteor.users.findOne(targetUserId))
       throw new Meteor.Error(422, "Unable to find targetUserId to impersonate: " + targetUserId);
 
-    this.setUserId(targetUserId);
+
+    if (typeof accountsAdminUiConfiguration !== 'undefined' &&
+      accountsAdminUiConfiguration.allowImpersonation)
+      this.setUserId(targetUserId);
+    else
+      throw new Meteor.Error(422, "Enable accountsAdminUiConfiguration.allowImpersonation key to allow impersonation");
 
   },
 

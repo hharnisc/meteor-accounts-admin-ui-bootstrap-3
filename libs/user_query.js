@@ -4,7 +4,9 @@ filteredUserQuery = function(userId, filter) {
 		return Meteor.users.find(userId);
 
 	// TODO: configurable limit and paginiation
-	var queryLimit = 25;
+  var queryLimit = 25;
+  if (typeof accountsAdminUiConfiguration !== 'undefined' && accountsAdminUiConfiguration.maxUsersPerPage)
+    queryLimit = accountsAdminUiConfiguration.maxUsersPerPage;
 
 	if(!!filter) {
 		// TODO: passing to regex directly could be dangerous

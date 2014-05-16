@@ -28,7 +28,15 @@ Template.accountsAdmin.helpers({
 
 	myself: function(userId) {
 		return Meteor.userId() === userId;
-	}
+	},
+
+  allowImpersonate: function() {
+    return (typeof accountsAdminUiConfiguration !== 'undefined' && accountsAdminUiConfiguration.allowImpersonation);
+  },
+
+  userStatus: function() {
+    return (typeof accountsAdminUiConfiguration !== 'undefined' && accountsAdminUiConfiguration.userStatus);
+  },
 });
 
 // search no more than 2 times per second

@@ -24,7 +24,11 @@ Template.impersonateAccountModalInner.events({
       Meteor.connection.setUserId(self._id);
       $('body').removeClass('modal-open');
       $('.modal-backdrop').remove();
-      Router.go("plansList");
+
+      if (typeof accountsAdminUiConfiguration !== 'undefined' &&
+        accountsAdminUiConfiguration.impersonationSuccessRoute) {
+        Router.go(accountsAdminUiConfiguration.impersonationSuccessRoute);
+      }
     });
   }
 });

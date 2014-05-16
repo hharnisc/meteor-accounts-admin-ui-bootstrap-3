@@ -6,6 +6,8 @@ Package.on_use(function (api, where) {
 	api.use('standard-app-packages', ['client', 'server']);
 	api.use('bootstrap-3', 'client');
 	api.use('roles', ['client', 'server']);
+  api.use('iron-router', 'client', { weak: true });
+  api.use('user-status', 'client', { weak: true });
 
 	api.add_files('libs/user_query.js', ['client', 'server']);
 
@@ -28,4 +30,6 @@ Package.on_use(function (api, where) {
 	api.add_files('server/startup.js', 'server');
 	api.add_files('server/publish.js', 'server');
 	api.add_files('server/methods.js', 'server');
+
+  api.export("accountsAdminUi");
 });

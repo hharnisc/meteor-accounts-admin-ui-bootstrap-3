@@ -18,6 +18,11 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Roles</th>
+                {{#if userStatus}}
+                  <th>Last Login</th>
+                  <th>Online?</th>
+                {{/if}}
+
             </tr>
         </thead>
         <tbody>
@@ -28,7 +33,9 @@
                             <span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
                             <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
                             <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
-                            <span data-toggle="modal" href="#impersonateaccount" class="glyphicon glyphicon-eye-open clickable"></span>
+                            {{#if allowImpersonate}}
+                              <span data-toggle="modal" href="#impersonateaccount" class="glyphicon glyphicon-eye-open clickable"></span>
+                            {{/if}}
                         {{/unless}}
                     </td>
                     <td>
@@ -40,6 +47,10 @@
                     </td>
                     <td>{{email}}</td>
                     <td>{{roles}}</td>
+                    {{#if userStatus}}
+                      <td>{{status.lastLogin}}</td>
+                      <td>{{status.online}}</td>
+                    {{/if}}
                 </tr>
             {{/each}}
         </tbody>
