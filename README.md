@@ -56,6 +56,7 @@ Set up a simple admin page
 ```sh
 $ mrt create app
 $ cd app
+$ mrt add bootstrap-3		# or mrt add less-bootstrap-3
 $ mrt add accounts-password
 $ mrt add roles
 $ mrt add accounts-ui-bootstrap-3
