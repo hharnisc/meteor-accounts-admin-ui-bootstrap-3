@@ -16,10 +16,15 @@ A roles based account management system using bootstrap 3 for Meteor.
 - Configurable fields
 - Implement pagination (currently relies on search to find users)
 - Write tests
+- User impersonation (for admins)
 
 ## History
+**Latest Version:** 0.2.6
+- Remove hard dependency to bootstrap-3 (so less-bootstrap-3 or similar can be used). (Thanks to [@johnm](https://github.com/johnm))
+- Documentation updates
+- Fixes [Issue #18](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/18)
 
-**Latest Version:** 0.2.5
+**Version:** 0.2.5
 
 - Bump roles version; v1.2.8 is Blaze-compatible (thanks to [@alanning](https://github.com/alanning)!)
 
@@ -176,3 +181,4 @@ If you've got a change you think would benefit the community send me a pull requ
 **Contributors**
 - [@djkmiles](https://github.com/djkmiles)
 - [@alanning](https://github.com/alanning)
+- [@johnm](https://github.com/johnm)
