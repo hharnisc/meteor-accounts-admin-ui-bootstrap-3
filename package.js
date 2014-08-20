@@ -15,6 +15,8 @@ Package.on_use(function (api, where) {
 	api.add_files('client/delete_account_modal.js', 'client');
 	api.add_files('client/info_account_modal.html', 'client');
 	api.add_files('client/info_account_modal.js', 'client');
+	api.add_files('client/create_account_modal.html', 'client');
+	api.add_files('client/create_account_modal.js', 'client');
 	api.add_files('client/update_account_modal.html', 'client');
 	api.add_files('client/update_account_modal.js', 'client');
 	api.add_files('client/update_roles_modal.html', 'client');
