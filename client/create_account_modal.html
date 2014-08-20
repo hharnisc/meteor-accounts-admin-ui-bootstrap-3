@@ -1,0 +1,73 @@
+<template name="createAccountModal">
+	<div id="createaccount" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				{{> createAccountModalInner}}
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="createAccountModalInner">
+    <div class="modal-header">
+        <h4>Create user</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Email</span>
+                <input type="email" class="form-control admin-user-info" name="email" value="" placeholder="Email" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Username</span>
+                <input class="form-control admin-user-info" name="username" value="" placeholder="Username" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Name</span>
+                <input class="form-control admin-user-info" name="profile-name" value="" placeholder="Name" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon">Password</span>
+                <input class="form-control admin-user-info" name="password" value="" placeholder="Password" required>
+            </div>
+        </div>
+
+        {{#if roles}}
+            <ul class="list-group">
+                {{#each roles}}
+                <li class="list-group-item">
+                    <button class="btn btn-danger btn-xs remove-role" type="button">Remove</button>
+                    <span class="pull-right">{{this}}</span>
+                </li>
+                {{/each}}
+            </ul>
+        {{else}}
+            This account has no roles.
+        {{/if}}
+
+        {{#if unsetRoles}}
+            <div class="btn-group clearfix full-width">
+                <button type="button" class="btn btn-success dropdown-toggle pull-right" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-plus"></span> Add Role
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    {{#each unsetRoles}}
+                        <li><a href="#" class="add-role">{{this}}</a></li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{else}}
+            <em>All roles already set.</em>
+        {{/if}}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
+    </div>
+</template>
