@@ -37,6 +37,18 @@ Template.accountsAdmin.helpers({
   userStatus: function() {
     return (typeof accountsAdminUiConfiguration !== 'undefined' && accountsAdminUiConfiguration.userStatus);
   },
+  lastLogin: function() {
+    if (this.status && this.status.lastLogin) {
+      var date = (typeof this.status.lastLogin === "object" && this.status.lastLogin.date) ?
+        this.status.lastLogin.date : this.status.lastLogin;
+      return date.toLocaleString();
+    }
+    return '';
+  },
+  createdAt: function() {
+    return (this.createdAt) ? this.createdAt.toDateString() : '';
+  },
+
 });
 
 // search no more than 2 times per second
@@ -68,6 +80,11 @@ Template.accountsAdmin.events({
     }
 });
 
+Template.accountsAdmin.created = function() {
+  Session.set("sortKey", "email");
+};
+
+
 Template.accountsAdmin.rendered = function() {
 	var searchElement = document.getElementsByClassName('search-input-filter');
 	if(!searchElement)
@@ -81,3 +98,9 @@ Template.accountsAdmin.rendered = function() {
 	searchElement[0].focus();
 	searchElement[0].setSelectionRange(pos, pos);
 };
+
+Template.accountsAdmin.destroyed = function() {
+  //clean up the session
+  Session.set('userInScope', undefined);
+  Session.set('sortKey', undefined);
+}

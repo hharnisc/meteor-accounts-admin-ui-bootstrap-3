@@ -22,7 +22,7 @@
                   <th>Last Login</th>
                   <th>Online?</th>
                 {{/if}}
-
+                <th>Created</th>
             </tr>
         </thead>
         <tbody>
@@ -48,9 +48,10 @@
                     <td>{{email}}</td>
                     <td>{{roles}}</td>
                     {{#if userStatus}}
-                      <td>{{status.lastLogin}}</td>
+                      <td>{{lastLogin}}</td>
                       <td>{{status.online}}</td>
                     {{/if}}
+                    <td>{{createdAt}}</td>
                 </tr>
             {{/each}}
         </tbody>
