@@ -102,5 +102,26 @@ Meteor.methods({
 		obj[property] = value;
 		Meteor.users.update({_id: id}, {$set: obj});
 
+	},
+
+	createUserAccount: function (data) {
+		if (!data.username || !data.email || !data.password || !data.profile || !data.profile.name) {
+			throw new Meteor.Error(422, 'Please fill in all fields for create user');
+		}
+
+		var userId = Accounts.createUser({
+			username: data.username,
+			email: data.email,
+			password: data.password,
+			profile: {
+				name: data.profile.name
+			}
+		});
+
+		if (data.roles && data.roles.length) {
+			Roles.addUsersToRoles(userId, data.roles);
+		}
+
+		return Meteor.users.findOne({_id: userId});
 	}
 });

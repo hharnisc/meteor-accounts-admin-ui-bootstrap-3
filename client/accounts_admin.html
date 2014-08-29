@@ -5,6 +5,7 @@
                 <input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                    <button class="btn btn-default" type="button" data-toggle="modal" href="#createaccount"><span class="glyphicon glyphicon-plus"></span>&nbsp; Add user</button>
                     <button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>
                 </span>
             </div>
@@ -46,4 +47,5 @@
     {{> deleteAccountModal}}
     {{> infoAccountModal}}
     {{> updateAccountModal}}
+    {{> createAccountModal}}
 </template>
