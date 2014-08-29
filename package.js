@@ -1,10 +1,13 @@
 Package.describe({
-	summary: "A roles based account management system using bootstrap 3"
+	summary: "A roles based account management system using bootstrap 3",
+  version: "0.2.7",
+  git: "https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3.git"
 });
 
 Package.on_use(function (api, where) {
+  api.versionsFrom("METEOR@0.9.0");
 	api.use('standard-app-packages', ['client', 'server']);
-	api.use('roles', ['client', 'server']);
+	api.use("alanning:roles@1.2.8", ['client', 'server']);
 
 	api.add_files('libs/user_query.js', ['client', 'server']);
 
