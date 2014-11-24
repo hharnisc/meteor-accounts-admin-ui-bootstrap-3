@@ -123,7 +123,7 @@ Template.accountsAdmin.events({
     return false;
   },
   'click .clickable': function() {
-    Session.set('userInScope', this);
+    Session.set('userInScope', this.user);
   },
   'click .showMore': function(event) {
     event.preventDefault();
@@ -189,7 +189,7 @@ function index(obj, i) {
   return obj && obj[i];
 }
 Template.accountsAdminField.helpers({
-  field: function() {
+  val: function() {
     var val = this && this.field.key.split('.').reduce(index, this.user);
     return this.field.fn && this.field.fn(val, this.user) || val;
   },
