@@ -1,3 +1,6 @@
+/* global Roles */
+"use strict";
+
 Meteor.startup(function() {
 	// create an admin role if it doesn't exist
 	if (Meteor.roles.find({name: 'admin'}).count() < 1 ) {

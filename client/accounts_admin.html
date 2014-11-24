@@ -1,65 +1,68 @@
 <template name="accountsAdmin">
 
-    <div class="row accounts-search">
-        <div class="col-sm-offset-4 col-sm-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
-            <div class="input-group">
-                <input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-                    <button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>
-                </span>
-            </div>
-        </div>
+  <div class="row accounts-search">
+    <div class="col-xs-offset-4 col-xs-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
+      <div class="input-group">
+        <input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
+        <span class="input-group-btn">
+                    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span>
+        </button>
+        <button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>
+        </span>
+      </div>
     </div>
-    <table class='table table-striped'>
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Roles</th>
-                {{#if userStatus}}
-                  <th>Last Login</th>
-                  <th>Online?</th>
-                {{/if}}
-                <th>Created</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each users}}
-                <tr class="{{#if myself _id}}info{{/if}}">
-                    <td>
-                        {{#unless myself _id}}
-                            <span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
-                            <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
-                            <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
-                            {{#if allowImpersonate}}
-                              <span data-toggle="modal" href="#impersonateaccount" class="glyphicon glyphicon-eye-open clickable"></span>
-                            {{/if}}
-                        {{/unless}}
-                    </td>
-                    <td>
-                        {{#if profile.name}}
-                            {{profile.name}}
-                        {{else}}
-                            {{email}}
-                        {{/if}}
-                    </td>
-                    <td>{{email}}</td>
-                    <td>{{roles}}</td>
-                    {{#if userStatus}}
-                      <td>{{lastLogin}}</td>
-                      <td>{{status.online}}</td>
-                    {{/if}}
-                    <td>{{createdAt}}</td>
-                </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    {{> updateRolesModal}}
-    {{> deleteAccountModal}}
-    {{> infoAccountModal}}
-    {{> updateAccountModal}}
-    {{> impersonateAccountModal}}
+  </div>
+  <table class='table table-striped'>
+    <thead>
+      <tr>
+        {{#each fields}}
+        <th>{{> accountsAdminHeader}}</th>
+        {{/each}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+      <tr class="{{#if myself _id}}info{{/if}}">
+        {{#each fields}}
+        <td>{{> accountsAdminField field=. user=..}}</td>
+        {{/each}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <a href="#" class="showMore" data-direction="-1">Previous {{pageSize}} users</a>
+  <a href="#" class="showMore pull-right" data-direction="1">Next {{pageSize}} users</a>
+
+  {{> updateRolesModal}}
+  {{> deleteAccountModal}}
+  {{> infoAccountModal}}
+  {{> updateAccountModal}}
+  {{> impersonateAccountModal}}
 </template>
 
+<template name="accountsAdminHeader">
+  <a href="#" class="sortIndicator">{{header}}
+  {{#if sortDown}}
+    <span class="glyphicon glyphicon-chevron-down"></span>
+  {{/if}}
+  {{#if sortUp}}
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  {{/if}}
+  </a>
+</template>
+
+
+<template name="accountsAdminControlPanel">
+  {{#unless myself _id}}
+    <span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
+  {{/unless}}
+  <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
+  <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
+  {{#if allowImpersonate}}
+    <span data-toggle="modal" href="#impersonateaccount" class="glyphicon glyphicon-eye-open clickable"></span>
+  {{/if}}
+</template>
+
+<template name="accountsAdminField">
+  {{#if field.tmpl}} {{> field.tmpl}} {{else}} {{field}} {{/if}}
+</template>

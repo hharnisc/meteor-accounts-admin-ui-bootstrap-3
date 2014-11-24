@@ -1,33 +1,27 @@
+/* global AccountsAdmin */
+"use strict";
+
 Template.impersonateAccountModalInner.helpers({
-  userInScope: function () {
+  userInScope: function() {
     return Session.get('userInScope');
   },
 });
 
 
 Template.impersonateAccountModalInner.events({
-  'click .btn-danger': function (event, template) {
+  'click .btn-danger': function() {
     var self = this;
-    Meteor.call('impersonateUser', self._id, function (error) {
+    Meteor.call('impersonateUser', self._id, function(error) {
       if (error) {
-        // optionally use a meteor errors package
-        if (typeof Errors === "undefined")
-          Log.error('Error: ' + error.reason);
-        else {
-          Errors.
-          throw (error.reason);
-        }
-      }
-      // $("#impersonateaccount").modal("hide");
-      // event.stopImmediatePropagation();
-      // event.preventDefault();
-      Meteor.connection.setUserId(self._id);
-      $('body').removeClass('modal-open');
-      $('.modal-backdrop').remove();
+        console.error("Render impersonate got error: ", error);
+      } else {
+        Meteor.connection.setUserId(self._id);
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
 
-      if (typeof accountsAdminUiConfiguration !== 'undefined' &&
-        accountsAdminUiConfiguration.impersonationSuccessRoute) {
-        Router.go(accountsAdminUiConfiguration.impersonationSuccessRoute);
+        if (AccountsAdmin.config.impersonationSuccess) {
+          AccountsAdmin.config.impersonationSuccess();
+        }
       }
     });
   }

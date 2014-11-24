@@ -22,19 +22,25 @@ Template.infoAccountModalInner.helpers({
 		return Session.get('userInScope');
 	},
 
-	rolePairs: function() {
-		var pairs = [];
-		if (!this.roles)
-			pairs.push({key: 'Roles', value: 'None'});
-
-		for (var role in this.roles) {
-			var r = this.roles[role];
-			if (role === '0') {
-				pairs.push({key: 'Roles', value: r});
-			} else {
-				pairs.push({key: '-', value: r});
-			}
-		}
-		return pairs;
-	}
+  roles: function() {
+    var self = this;
+    var roles = [];
+    if (_.isArray(self.roles)) {
+      roles = self.roles;
+    } else if (_.isObject(self.roles)) {
+      if (_.isArray(self.roles[Roles.GLOBAL_GROUP])) {
+        self.roles[Roles.GLOBAL_GROUP].forEach(function(role) {
+          roles.push(role);
+        });
+      }
+      _.keys(self.roles).forEach(function(group) {
+        if (group !== Roles.GLOBAL_GROUP) {
+          self.roles[group].forEach(function(role) {
+            roles.push(role + ' (' + group + ')');
+          });
+        }
+      });
+    }
+    return roles;
+  }
 });

@@ -1,10 +1,20 @@
+/* global AccountsAdmin */
+"use strict";
+
+AccountsAdmin.subscribe = function() {
+  return [Meteor.subscribe('roles'),
+  Meteor.subscribe('filteredUsers', {
+    filter: Session.get('accountsAdminUserFilter') || '',
+    skip: Session.get("accountsAdminSkip") || null,
+    sort: Session.get("accountsAdminSortKey") || null,
+  })];
+};
 
 
 Meteor.startup(function() {
-	if (!accountsAdminUiConfiguration || !accountsAdminUiConfiguration.manualSubscriptions) {
-		Meteor.subscribe('roles');
-		Deps.autorun(function() {
-			Meteor.subscribe('filteredUsers', Session.get('userFilter'));
-		});
-	}
+  if (!AccountsAdmin.config.manualSubscriptions) {
+    Tracker.autorun(function() {
+      AccountsAdmin.subscribe();
+    });
+  }
 });
