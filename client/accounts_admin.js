@@ -5,20 +5,20 @@ var getRoles = function(value) {
   if (_.isArray(value)) {
     return value.join(',');
   } else if (_.isObject(value)) {
-    var str = '';
+    var roles = [];
     if (_.isArray(value[Roles.GLOBAL_GROUP])) {
       value[Roles.GLOBAL_GROUP].forEach(function(role) {
-        str += role + ',';
+        roles.push(role);
       });
     }
     _.keys(value).forEach(function(group) {
       if (group !== Roles.GLOBAL_GROUP) {
         value[group].forEach(function(role) {
-          str += role + ' (' + group + '),';
+        roles.push(role);
         });
       }
     });
-    return str;
+    return roles.join(',');
   }
 };
 
@@ -81,7 +81,7 @@ Template.accountsAdmin.helpers({
     }, ];
     if (AccountsAdmin.config.userStatus) {
       fields.push({
-        key: 'lastLogin',
+        key: 'status.lastLogin.date',
         label: 'Last Login',
         fn: function(value) {
           return value && value.toLocaleString();
