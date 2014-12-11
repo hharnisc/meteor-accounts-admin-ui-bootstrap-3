@@ -17,9 +17,13 @@
 			<div class="form-group">
 				<div class="input-group">
 					<span class="input-group-addon">Name</span>
-					<input data-user-id="{{_id}}" class="form-control admin-user-info" name="profile.name" value="{{profile.name}}" placeholder="{{email}}">
+					<input class="form-control admin-user-info" name="profile.name" value="{{profile.name}}" placeholder="{{email}}">
 				</div>
-			</div>
+        <div class="input-group">
+          <span class="input-group-addon">Password</span>
+          <input class="form-control admin-user-info" name="password" value="{{password}}" placeholder="New password here">
+        </div>
+      </div>
 <!-- 			{{#if roles}}
 				<ul class="list-group">
 					{{#each roles}}

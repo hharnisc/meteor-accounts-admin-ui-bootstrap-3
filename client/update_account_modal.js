@@ -1,3 +1,9 @@
+
+var getPassword = function() {
+  return "●●●●●●●●";
+};
+
+
 Template.updateAccountModalInner.helpers({
 	email: function () {
 		if (this.emails && this.emails.length)
@@ -27,7 +33,8 @@ Template.updateAccountModalInner.helpers({
 		if (!this.roles)
 			return allRoles;
 		return _.difference(allRoles, this.roles);
-	}
+	},
+  password: getPassword,
 });
 
 Template.updateAccountModalInner.events({
@@ -71,9 +78,10 @@ Template.updateAccountModalInner.events({
 	'change .admin-user-info' : function(event, template) {
 
 		var ele = event.currentTarget;
-		var userId = ele.getAttribute('data-user-id');
+		var userId = this._id;
 
-		Meteor.call('updateUserInfo', userId, ele.name, ele.value, function(error) {
+    var newName = template.$('input[name="profile.name"]').val();
+		Meteor.call('updateUserProfile', userId, 'name', newName, function(error) {
 			if (error)
 			{
 				if (typeof Errors === "undefined") Log.error('Error: ' + error.reason);
@@ -82,5 +90,17 @@ Template.updateAccountModalInner.events({
 			}
 			Session.set('userInScope', Meteor.users.findOne(userId));
 		});
+
+    var newPassword = template.$('input[name="password"]').val();
+    if (getPassword() !== newPassword ) {
+      Meteor.call('setPassword', userId, newPassword, function(error) {
+        if (error) {
+          if (typeof Errors === "undefined") Log.error('Error: ' + error.reason);
+          else Errors.throw(error.reason);
+          return;
+        }
+    });
+
+    }
 	}
 });

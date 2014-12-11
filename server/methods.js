@@ -102,7 +102,7 @@ Meteor.methods({
 		);
 	},
 
-	updateUserInfo: function(id, property, value) {
+	updateUserProfile: function(id, property, value) {
     check(id, String);
     check(property, String);
     //Giving the value a range of possible safe values
@@ -111,11 +111,11 @@ Meteor.methods({
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
 
-		if (property !== 'profile.name')
+		if (property !== 'name')
 			throw new Meteor.Error(422, "Only 'name' is supported.");
 
-		obj = {};
-		obj[property] = value;
+		var obj = {};
+		obj['profile.' + property] = value;
 		Meteor.users.update({_id: id}, {$set: obj});
 
 	},
@@ -139,5 +139,19 @@ Meteor.methods({
       throw new Meteor.Error(422, "Enable AccountsAdmin.config.allowImpersonation key to allow impersonation");
 
   },
+  setPassword: function(targetUserId, newPassword) {
+    check(targetUserId, String);
+    check(newPassword, String);
+
+    //this password should be hashed, but it's in plaintext right now
+    var user = Meteor.user();
+    if (!user || !Roles.userIsInRole(user, ['admin']))
+      throw new Meteor.Error(401, "You need to be an admin to set a password");
+
+    if (! Meteor.users.findOne(targetUserId))
+      throw new Meteor.Error(422, "Unable to find targetUserId to set password on: " + targetUserId);
+
+    Accounts.setPassword(targetUserId, newPassword);
+  }
 
 });
