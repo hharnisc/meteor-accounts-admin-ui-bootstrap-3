@@ -11,44 +11,44 @@
 <template name="updateAccountModalInner">
 	{{#with userInScope}}
 		<div class="modal-header">
-			<h4>Update {{email}}</h4>
+			<h4>Update User</h4>
 		</div>
-		<div class="modal-body">
-			<div class="form-group">
-				<div class="input-group">
-					<span class="input-group-addon">Name</span>
-					<input data-user-id="{{_id}}" class="form-control admin-user-info" name="profile.name" value="{{profile.name}}" placeholder="{{email}}">
-				</div>
-			</div>
+        <div class="modal-body">
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">Name</span>
+                    <input data-user-id="{{_id}}" class="form-control admin-user-info" name="username" value="{{username}}" placeholder="{{email}}">
+                </div>
+            </div>
 			{{#if roles}}
-				<ul class="list-group">
+                <ul class="list-group">
 					{{#each roles}}
-						<li class="list-group-item">
-							<button data-user-id="{{../_id}}" class="btn btn-danger btn-xs remove-role" type="button">Remove</button>
-							<span class="pull-right">{{this}}</span>
-						</li>
+                        <li class="list-group-item">
+                            <button data-user-id="{{../_id}}" class="btn btn-danger btn-xs remove-role" type="button">Remove</button>
+                            <span class="pull-right">{{this}}</span>
+                        </li>
 					{{/each}}
-				</ul>
+                </ul>
 			{{else}}
-				This account has no roles.
+                This account has no roles.
 			{{/if}}
 			{{#if unsetRoles}}
-			<div class="btn-group clearfix full-width">
-				<button type="button" class="btn btn-success dropdown-toggle pull-right" data-toggle="dropdown">
-					<span class="glyphicon glyphicon-plus"></span> Add Role 
-				</button>
-				<ul class="dropdown-menu pull-right" role="menu">
-					{{#each unsetRoles}}
-						<li><a href="#" class="add-role" data-user-id="{{../_id}}">{{this}}</a></li>
-					{{/each}}
-				</ul>
-			</div>
+                <div class="btn-group clearfix full-width">
+                    <button type="button" class="btn btn-success dropdown-toggle pull-right" data-toggle="dropdown">
+                        <span class="glyphicon glyphicon-plus"></span> Add Role
+                    </button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+						{{#each unsetRoles}}
+                            <li><a href="#" class="add-role" data-user-id="{{../_id}}">{{this}}</a></li>
+						{{/each}}
+                    </ul>
+                </div>
 			{{else}}
-			<em>All roles already set.</em>
+                <em>All roles already set.</em>
 			{{/if}}
 		</div>
 		<div class="modal-footer">
 			<button type="button" data-dismiss="modal" class="btn btn-primary">Done</button>
-		</div>
+        </div>
 	{{/with}}
 </template>

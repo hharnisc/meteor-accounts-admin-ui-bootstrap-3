@@ -75,7 +75,7 @@ Meteor.methods({
 			throw new Meteor.Error(422, 'Cannot delete role admin');
 
 		// remove the role from all users who currently have the role
-		// if successfull remove the role
+		// if successful remove the role
 		Meteor.users.update(
 			{roles: role },
 			{$pull: {roles: role }},
@@ -95,8 +95,8 @@ Meteor.methods({
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
 
-		if (property !== 'profile.name')
-			throw new Meteor.Error(422, "Only 'name' is supported.");
+		if (property !== 'username')
+			throw new Meteor.Error(422, "Only 'username' is supported.");
 
 		obj = {};
 		obj[property] = value;

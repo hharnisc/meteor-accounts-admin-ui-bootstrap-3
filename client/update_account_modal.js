@@ -7,7 +7,7 @@ Template.updateAccountModalInner.helpers({
 			//Iterate through services
 			for (var serviceName in this.services) {
 				var serviceObject = this.services[serviceName];
-				//If an 'id' isset then assume valid service
+				//If an 'id' is set then assume valid service
 				if (serviceObject.id) {
 					if (serviceObject.email) {
 						return serviceObject.email;

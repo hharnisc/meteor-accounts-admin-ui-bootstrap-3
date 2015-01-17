@@ -30,10 +30,14 @@
                         {{/unless}}
                     </td>
                     <td>
-                        {{#if profile.name}}
-                            {{profile.name}}
+                        {{#if username}}
+                            {{username}}
                         {{else}}
-                            {{email}}
+                            {{#if profile.name}}
+                                {{profile.name}}
+                            {{else}}
+                                {{email}}
+                            {{/if}}
                         {{/if}}
                     </td>
                     <td>{{email}}</td>
