@@ -95,9 +95,12 @@ Meteor.methods({
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
 
-		if (property !== 'username')
-			throw new Meteor.Error(422, "Only 'username' is supported.");
-
+		if (['username','profile.name'].indexOf(property) === -1)
+			throw new Meteor.Error(422, "Programming error: Only 'username' or 'profile.name' is supported.");
+		if (property = 'username') {
+			if (Meteor.users.find({_id:{$ne:id},username:value}).count())
+				throw new Meteor.Error("username <b>" + value + "</b> already in use")
+		}
 		obj = {};
 		obj[property] = value;
 		Meteor.users.update({_id: id}, {$set: obj});
