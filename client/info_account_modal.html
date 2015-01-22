@@ -15,12 +15,25 @@
 	{{#with userInScope}}
 	 	<div class="modal-body">
 			<ul class="list-group">
+				<li class="list-group-item"><strong>Username</strong>
+					<span class="pull-right">
+						{{#if username}}
+							{{username}}
+						{{else}}
+							{{#if profile.name}}
+								{{profile.name}}
+							{{else}}
+								{{email}}
+							{{/if}}
+						{{/if}}
+					</span>
+				</li>
 				<li class="list-group-item"><strong>Name</strong>
 					<span class="pull-right">
 						{{#if profile.name}}
 							{{profile.name}}
 						{{else}}
-							{{email}}
+							{{username}}
 						{{/if}}
 					</span>
 				</li>

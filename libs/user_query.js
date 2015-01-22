@@ -10,6 +10,7 @@ filteredUserQuery = function(userId, filter) {
 		// TODO: passing to regex directly could be dangerous
 		users = Meteor.users.find({
 			$or: [
+				{'username': {$regex: filter, $options: 'i'}},
 				{'profile.name': {$regex: filter, $options: 'i'}},
 				{'emails.address': {$regex: filter, $options: 'i'}}
 			]

@@ -11,9 +11,13 @@
         </div>
     </div>
     <table class='table table-striped'>
+        <caption style="text-align: center;">
+            <h2>Users and Roles</h2>
+        </caption>
         <thead>
             <tr>
                 <th></th>
+                <th>Username</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Roles</th>
@@ -30,11 +34,23 @@
                         {{/unless}}
                     </td>
                     <td>
+                        {{#if username}}
+                            {{username}}
+                        {{else}}
+                            {{#if profile.name}}
+                                {{profile.name}}
+                            {{else}}
+                                {{email}}
+                            {{/if}}
+                        {{/if}}
+                    </td>
+                    <td>
                         {{#if profile.name}}
                             {{profile.name}}
                         {{else}}
-                            {{email}}
+                            {{username}}
                         {{/if}}
+
                     </td>
                     <td>{{email}}</td>
                     <td>{{roles}}</td>

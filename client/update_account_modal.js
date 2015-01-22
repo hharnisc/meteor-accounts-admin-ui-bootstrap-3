@@ -7,7 +7,7 @@ Template.updateAccountModalInner.helpers({
 			//Iterate through services
 			for (var serviceName in this.services) {
 				var serviceObject = this.services[serviceName];
-				//If an 'id' isset then assume valid service
+				//If an 'id' is set then assume valid service
 				if (serviceObject.id) {
 					if (serviceObject.email) {
 						return serviceObject.email;
@@ -76,10 +76,12 @@ Template.updateAccountModalInner.events({
 		Meteor.call('updateUserInfo', userId, ele.name, ele.value, function(error) {
 			if (error)
 			{
-				if (typeof Errors === "undefined") Log.error('Error: ' + error.reason);
-				else Errors.throw(error.reason);
+				Log.error('Error calling updateUserInfo: ' + error.error);
+				var me = $("div.modal.in .modal-header").append("<div class='alert alert-danger' role='alert'>")
+				$("div.alert",me).html(error.error)
 				return;
 			}
+			$("div.modal.in .modal-header div.alert").remove();
 			Session.set('userInScope', Meteor.users.findOne(userId));
 		});
 	}
