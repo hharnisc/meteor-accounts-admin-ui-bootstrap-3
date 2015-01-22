@@ -17,6 +17,7 @@
         <thead>
             <tr>
                 <th></th>
+                <th>Username</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Roles</th>
@@ -42,6 +43,14 @@
                                 {{email}}
                             {{/if}}
                         {{/if}}
+                    </td>
+                    <td>
+                        {{#if profile.name}}
+                            {{profile.name}}
+                        {{else}}
+                            {{username}}
+                        {{/if}}
+
                     </td>
                     <td>{{email}}</td>
                     <td>{{roles}}</td>

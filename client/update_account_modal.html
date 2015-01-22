@@ -16,8 +16,12 @@
         <div class="modal-body">
             <div class="form-group">
                 <div class="input-group">
-                    <span class="input-group-addon">Name</span>
+                    <span class="input-group-addon">Username</span>
                     <input data-user-id="{{_id}}" class="form-control admin-user-info" name="username" value="{{username}}" placeholder="{{email}}">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Name</span>
+                    <input data-user-id="{{_id}}" class="form-control admin-user-info" name="profile.name" value="{{profile.name}}" placeholder="{{username}}">
                 </div>
             </div>
 			{{#if roles}}

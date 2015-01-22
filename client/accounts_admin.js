@@ -52,6 +52,7 @@ Template.accountsAdmin.events({
     },
 
     'click .glyphicon-pencil': function(event, template) {
+		$("div.modal .modal-header div.alert").remove();
 		Session.set('userInScope', this);
     }
 });

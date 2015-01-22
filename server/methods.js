@@ -97,7 +97,7 @@ Meteor.methods({
 
 		if (['username','profile.name'].indexOf(property) === -1)
 			throw new Meteor.Error(422, "Programming error: Only 'username' or 'profile.name' is supported.");
-		if (property = 'username') {
+		if (property === 'username') {
 			if (Meteor.users.find({_id:{$ne:id},username:value}).count())
 				throw new Meteor.Error("username <b>" + value + "</b> already in use")
 		}
