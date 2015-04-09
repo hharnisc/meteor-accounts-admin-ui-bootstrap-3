@@ -29,7 +29,7 @@ var getEmail = function(value, user) {
 
   if (user.services) {
     //Iterate through services
-    user.services.forEach(function(serviceName) {
+    _.keys(user.services).forEach(function(serviceName) {
       var serviceObject = user.services[serviceName];
       //If an 'id' isset then assume valid service
       if (serviceObject.id) {
