@@ -1,4 +1,4 @@
-/* global AccountsAdmin */
+/* global AccountsAdmin, Roles, MeteorOTP */
 "use strict";
 
 Meteor.publish('roles', function (){
@@ -16,6 +16,11 @@ var positiveInteger = Match.Where(function(x) {
 //   return !!x.match(/^\w*$/);
 // });
 
+var checkForAdminAndOTP = function(userId) {
+  var user = Meteor.users.findOne({_id: userId});
+  return user && Roles.userIsInRole(user, 'admin') && MeteorOTP.checkOTP(user);
+};
+
 Meteor.publish('filteredUsers', function(options) {
   var self = this;
   check(options, Match.ObjectIncluding({
@@ -24,6 +29,10 @@ Meteor.publish('filteredUsers', function(options) {
     sort: Match.OneOf(Object, undefined, null)
     // sort: Match.OneOf(Match.ObjectIncluding({ direction: Match.OneOf(1, -1), key: String }), null, undefined)
   }));
+
+  if (!checkForAdminAndOTP(self.userId)) {
+    return;
+  }
 
   return AccountsAdmin.filteredUserQuery(self.userId, options);
 });
