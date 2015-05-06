@@ -12,11 +12,12 @@ Package.onUse(function (api) {
 
 	api.use('standard-app-packages', ['client', 'server']);
 	api.use('mizzao:bootstrap-3', 'client');
-	api.use('alanning:roles', ['client', 'server']);
+	api.use('alanning:roles@1.2.9', ['client', 'server']);
   api.use('iron:router', 'client', { weak: true });
   api.use('mizzao:user-status@0.6.0', 'client', { weak: true });
 
   api.addFiles('lib/config.js', ['client', 'server']);
+  api.addFiles('lib/check.js', ['client', 'server']);
 	api.addFiles('lib/user_query.js', ['client', 'server']);
 	api.addFiles('client/startup.js', 'client');
 	api.addFiles('client/accounts_admin.html', 'client');

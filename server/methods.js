@@ -1,16 +1,13 @@
-/* global Roles, AccountsAdmin, MeteorOTP */
+/* global Roles, AccountsAdmin */
 "use strict";
 
-var checkForAdminAndOTP = function(user) {
-  return user && Roles.userIsInRole(user, 'admin') && MeteorOTP.checkOTP(user);
-};
 
 Meteor.methods({
 	deleteUser: function(userId) {
     check(userId, String);
 		var user = Meteor.user();
-		if (!user || ! checkForAdminAndOTP(user))
-			throw new Meteor.Error(401, "You need to be an admin with an OTP to delete a user.");
+		if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
 		if (user._id === userId)
 			throw new Meteor.Error(422, 'You can\'t delete yourself.');
@@ -24,8 +21,8 @@ Meteor.methods({
     check(role, String);
     check(group, Match.Optional(String));
 		var user = Meteor.user();
-    if (!user || ! checkForAdminAndOTP(user))
-			throw new Meteor.Error(401, "You need to be an admin with an OTP to update a user.");
+    if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
 		if (user._id === userId)
 			throw new Meteor.Error(422, 'You can\'t update yourself.');
@@ -47,10 +44,10 @@ Meteor.methods({
     check(role, String);
     check(group, Match.Optional(String));
 		var user = Meteor.user();
-    if (!user || ! checkForAdminAndOTP(user))
-			throw new Meteor.Error(401, "You need to be an admin with an OTP to update a user.");
+    if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
-		if (user._id == userId)
+		if (user._id === userId)
 			throw new Meteor.Error(422, 'You can\'t update yourself.');
 
 		// handle invalid role
@@ -67,8 +64,8 @@ Meteor.methods({
 	addRole: function(role) {
     check(role, String);
 		var user = Meteor.user();
-    if (!user || ! checkForAdminAndOTP(user))
-			throw new Meteor.Error(401, "You need to be an admin with an OTP to update a user.");
+    if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
 		// handle existing role
 		if (Meteor.roles.find({name: role}).count() > 0 )
@@ -80,8 +77,8 @@ Meteor.methods({
 	removeRole: function(role) {
     check(role, String);
 		var user = Meteor.user();
-    if (!user || ! checkForAdminAndOTP(user))
-			throw new Meteor.Error(401, "You need to be an admin with an OTP to update a user.");
+    if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
 		// handle non-existing role
 		if (Meteor.roles.find({name: role}).count() < 1 )
@@ -112,8 +109,8 @@ Meteor.methods({
     //Giving the value a range of possible safe values
     check(value, Match.OneOf(String, Number, Boolean, Date, undefined, null));
 		var user = Meteor.user();
-    if (!user || ! checkForAdminAndOTP(user))
-			throw new Meteor.Error(401, "You need to be an admin with an OTP to update a user.");
+    if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
 		if (property !== 'name')
 			throw new Meteor.Error(422, "Only 'name' is supported.");
@@ -129,8 +126,8 @@ Meteor.methods({
     check(targetUserId, String);
 
     var user = Meteor.user();
-    if (!user || ! checkForAdminAndOTP(user))
-      throw new Meteor.Error(401, "You need to be an admin with an OTP to impersonate a user.");
+    if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
     if (! Meteor.users.findOne(targetUserId))
       throw new Meteor.Error(422, "Unable to find targetUserId to impersonate: " + targetUserId);
@@ -149,8 +146,8 @@ Meteor.methods({
 
     //this password should be hashed, but it's in plaintext right now
     var user = Meteor.user();
-    if (!user || ! checkForAdminAndOTP(user))
-      throw new Meteor.Error(401, "You need to be an admin with an OTP to set a password");
+    if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
+      throw new Meteor.Error(401, "You need to be an authenticated admin");
 
     if (! Meteor.users.findOne(targetUserId))
       throw new Meteor.Error(422, "Unable to find targetUserId to set password on: " + targetUserId);
