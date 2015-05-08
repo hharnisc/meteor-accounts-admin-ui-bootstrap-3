@@ -1,8 +1,96 @@
+AdminUsersMaxUsers = 15;
+Session.setDefault('adminUsersPage',1);
+
+Template.accountsAdmin.onCreated(function(){
+	var template = this;
+	template.subscription = null;
+	template.maxUsers = new ReactiveVar(0);
+	template.numPages = new ReactiveVar(0);
+	template.skipUsers = new ReactiveVar(0);
+	template.page = new ReactiveVar(0);
+	template.userFilter = new ReactiveVar('');
+
+	// console.log(this.view.name+'.created');
+
+	Meteor.call('maxUsers', function(err,res) {
+		if(!err) 
+		{
+			template.maxUsers.set(res);
+			var page = Session.get('adminUsersPage');
+			var pages = parseInt(res/AdminUsersMaxUsers);
+			if(page>pages) page = 1;
+			template.numPages.set(pages);
+			template.page.set(page);
+			template.skipUsers.set( (page-1) * AdminUsersMaxUsers );
+		}
+	});
+
+	template.subscribe('roles');
+
+	template.autorun(function(){
+		var filter = template.userFilter.get();
+		// console.log('accountsAdmin.autorun',filter);
+		if(template.subscription) template.subscription.stop();
+
+		if(filter != '')
+		{
+			// console.log('autorun user filter', filter);
+			template.subscription = template.subscribe('filteredUsers', filter);
+		}
+		else
+		{
+			var skip = template.skipUsers.get();
+			// console.log('autorun user subscribe', filter, skip, AdminUsersMaxUsers);
+			template.subscription = template.subscribe('filteredUsers', filter, skip, AdminUsersMaxUsers);
+		}
+	});
+
+	template.disablePaging = function(disable) {
+		if(disable)
+		{
+			template.$('.max-users').attr('disabled', true);
+		}
+		else
+		{
+			var page = template.page.get();
+			var pages = template.numPages.get();
+			template.$('.max-users').attr('disabled', false);
+			$('.max-users.backward').attr('disabled', page <= 1);
+			$('.max-users.forward').attr('disabled', page >= pages );
+		}
+	}
+});
+Template.accountsAdmin.onDestroyed(function(){
+	if(this.subscription) this.subscription.stop();
+})
 Template.accountsAdmin.helpers({
 	users: function() {
-		return filteredUserQuery(Meteor.userId(), Session.get("userFilter"));
+		var template = Template.instance();
+		var start = template.skipUsers.get();
+		var filter = template.userFilter.get();
+		// console.log('users', start, filter);
+		return Meteor.users.find({},{sort:{name:1}});//filteredUserQuery(Meteor.userId());
 	},
-
+	pages: function() {
+		var template = Template.instance();
+		var page = template.page.get();
+		var pages = template.numPages.get();
+		$('.max-users.backward').attr('disabled', page <= 1);
+		$('.max-users.forward').attr('disabled', page >= pages );
+		return pages;
+	},
+	page: function() {
+		var template = Template.instance();
+		var page = template.page.get();
+		var pages = template.numPages.get();
+		$('.max-users.backward').attr('disabled', page <= 1);
+		$('.max-users.forward').attr('disabled', page >= pages );
+		return page;
+	},
+	skipUsers: function() {
+		var template = Template.instance();
+		return template.skipUsers.get();
+	},
 	email: function () {
 		if (this.emails && this.emails.length)
 			return this.emails[0].address;
@@ -23,44 +111,100 @@ Template.accountsAdmin.helpers({
 	},
 
 	searchFilter: function() {
-		return Session.get("userFilter");
+		var template = Template.instance();
+		return template.userFilter.get();
 	},
 
 	myself: function(userId) {
 		return Meteor.userId() === userId;
+	},
+
+	contentColumn: function() {
+		return Template.instance().contentColumn;
+	},
+
+	content: function() {
+		var t = Template.instance();
+		if(t.content != undefined) return t.content(this);
+		// var baseUrl = '<a href="/account/'+this._id+'/';
+		// return baseUrl+'businesses">'+Businesses.find({userId: this._id}).count()+'</a>/'+baseUrl+'descriptions">'+Descriptions.find({userId: this._id}).count()+'</a>';
 	}
 });
 
-// search no more than 2 times per second
+// search no more than 2 times per second keyUp
 var setUserFilter = _.throttle(function(template) {
 	var search = template.find(".search-input-filter").value;
-	Session.set("userFilter", search);
-}, 500);
+	if(search) template.$('.max-users').attr('disabled', true);
+		else template.$('.max-users').attr('disabled', false);
+	template.userFilter.set(search);
+}, 1000);
 
 Template.accountsAdmin.events({
-	'keyup .search-input-filter': function(event, template) {
-        setUserFilter(template);
-        return false;
-    },
+	'keydown .search-input-filter': function(event, template) {
+		// var template = Template.instance();
+		// setUserFilter(template);
+		if(event.keyCode == 13)
+		{
+			var search = template.find(".search-input-filter").value;
+			template.disablePaging( search != '');
+			template.userFilter.set(search);
+		}
+		// return false;
+	},
 
-    'click .glyphicon-trash': function(event, template) {
-		Session.set('userInScope', this);
-    },
+	'click .glyphicon-forward': function(event, template) {
+		var page = template.page.get();
+		page++;
+		template.page.set(page);
+		Session.set('adminUsersPage', page);
+		template.skipUsers.set( (page-1) * AdminUsersMaxUsers );
+		// console.log((page-1) * AdminUsersMaxUsers, template.skipUsers.get());
+	},
 
-    'click .glyphicon-info-sign': function(event, template) {
-		Session.set('userInScope', this);
-    },
+	'click .glyphicon-backward': function(event, template) {
+		var page = template.page.get();
+		page--;
+		template.page.set(page);
+		Session.set('adminUsersPage', page);
+		template.skipUsers.set( (page-1) * AdminUsersMaxUsers);
+		// console.log((page-1) * AdminUsersMaxUsers, template.skipUsers.get());
+	},
 
-    'click .glyphicon-pencil': function(event, template) {
+	'click .glyphicon-search': function(event, template) {
+		var search = template.find(".search-input-filter").value;
+		template.disablePaging( search != '');
+		template.userFilter.set(search);
+	},
+
+	'click .glyphicon-trash': function(event, template) {
 		Session.set('userInScope', this);
-    }
+	},
+
+	'click .glyphicon-info-sign': function(event, template) {
+		Session.set('userInScope', this);
+	},
+
+	'click .glyphicon-pencil': function(event, template) {
+		Session.set('userInScope', this);
+	},
+
+	// 'change input.start-users': function(event, template) {
+	// 	template.skipUsers.set(event.target.value);
+	// },
+
+	'click .glyphicon-user, click label.max-users': function(event, template) {
+		template.page.set(1);
+		template.skipUsers.set(0);
+	}
 });
 
-Template.accountsAdmin.rendered = function() {
+Template.accountsAdmin.onRendered(function() {
+	var template = this;
+
 	var searchElement = document.getElementsByClassName('search-input-filter');
 	if(!searchElement)
 		return;
-	var filterValue = Session.get("userFilter");
+	var filterValue = template.userFilter.get();
 
 	var pos = 0;
 	if (filterValue)
@@ -68,4 +212,4 @@ Template.accountsAdmin.rendered = function() {
 
 	searchElement[0].focus();
 	searchElement[0].setSelectionRange(pos, pos);
-};
+});
