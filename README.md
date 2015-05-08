@@ -8,18 +8,25 @@ A roles based account management system using bootstrap 3 for Meteor.
 - [History](#history)
 - [Quick Start](#quick-start)
 - [Iron Router Integration](#iron-router-integration)
+- [Additional Columns](#additional-columns)
 - [Contributing](#contributing)
+
 
 ## TODO
 
 - ~~Implement UI to create/remove roles (currently done at Meteor.startup)~~ DONE
 - Configurable fields
-- Implement pagination (currently relies on search to find users)
 - Write tests
 - User impersonation (for admins)
 
 ## History
-**Latest Version:** 0.2.6
+**Latest Version:** 0.2.7
+- Implement pagination
+- Implement additional column support
+- Add method to add 100 random users
+- Make active user editable (Meteor.user)
+
+**Version:** 0.2.6
 - Remove hard dependency to bootstrap-3 (so less-bootstrap-3 or similar can be used). (Thanks to [@johnm](https://github.com/johnm))
 - Documentation updates
 - Fixes [Issue #18](https://github.com/hharnisc/meteor-accounts-admin-ui-bootstrap-3/issues/18)
@@ -171,6 +178,28 @@ Router.map(function() {
             }
 		}
 	});
+});
+```
+
+## Additional Columns
+
+You can now add two helper methods in **your code** to add additional columns to the user table. The first method `contentColumns` simply returns an Array of column headers as they should appear in the table header. The second method `contentColumn` takes two parameters, the column and the user, and should return the content for that user and column.
+
+Example:
+
+```
+Template.accountsAdmin.helpers({
+    contentColumns: function() {
+        return ['Foo','Bar'];
+    },
+    contentColumn: function(column, user) {
+        var r = [];
+        if(column == 'Foo') r.push('Foo content for '+user._id);
+        else if(column == 'Bar') r.push('Bar content for '+user._id);
+        else r.push('Unknow Column');
+
+        return r.join('');
+    }
 });
 ```
 
