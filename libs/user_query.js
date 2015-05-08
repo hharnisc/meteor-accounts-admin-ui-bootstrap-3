@@ -5,7 +5,7 @@ filteredUserQuery = function(userId, filter, start, limit) {
 
 	// TODO: configurable limit and paginiation
 	// var queryLimit = 25;
-	var options = {sort: {name:1}};
+	var options = {sort: {'profile.name':1}};
 	if(start) options['skip'] = parseInt(start);
 	if(limit) options['limit'] = parseInt(limit);
 	// if(Meteor.isServer) console.log(options);
