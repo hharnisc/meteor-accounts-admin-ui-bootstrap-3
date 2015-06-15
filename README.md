@@ -63,7 +63,7 @@ $ mrt create app
 $ cd app
 $ mrt add bootstrap-3		# or mrt add less-bootstrap-3
 $ mrt add accounts-password
-$ mrt add roles
+$ mrt add alanning:roles
 $ mrt add accounts-ui-bootstrap-3
 $ mrt add accounts-admin-ui-bootstrap-3
 $ mrt remove autopublish
