@@ -6,12 +6,15 @@ Meteor.methods({
 
 		if (user._id == userId)
 			throw new Meteor.Error(422, 'You can\'t delete yourself.');
-		
+
 		// remove the user
 		Meteor.users.remove(userId);
 	},
 
 	addUserRole: function(userId, role) {
+		check(userId, String);
+		check(role, String);
+
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
