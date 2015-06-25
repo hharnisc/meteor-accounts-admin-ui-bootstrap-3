@@ -1,26 +1,31 @@
+/* global Roles */
+"use strict";
+
 Template.infoAccountModalInner.helpers({
-	email: function () {
-		if (this.emails && this.emails.length)
-			return this.emails[0].address;
+  email: function() {
+    if (this.emails && this.emails.length)
+      return this.emails[0].address;
 
-		if (this.services) {
-			//Iterate through services
-			for (var serviceName in this.services) {
-				var serviceObject = this.services[serviceName];
-				//If an 'id' isset then assume valid service
-				if (serviceObject.id) {
-					if (serviceObject.email) {
-						return serviceObject.email;
-					}
-				}
-			}
-		}
-		return "";
-	},
+    if (this.services) {
+      //Iterate through services
+      for (var serviceName in this.services) {
+        if (this.services.hasOwnProperty(serviceName)) {
+          var serviceObject = this.services[serviceName];
+          //If an 'id' isset then assume valid service
+          if (serviceObject.id) {
+            if (serviceObject.email) {
+              return serviceObject.email;
+            }
+          }
+        }
+      }
+    }
+    return "";
+  },
 
-	userInScope: function() {
-		return Session.get('userInScope');
-	},
+  userInScope: function() {
+    return Session.get('userInScope');
+  },
 
   roles: function() {
     var self = this;

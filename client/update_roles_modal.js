@@ -1,3 +1,6 @@
+/* global Roles, Errors */
+"use strict";
+
 Template.updateRolesModalInner.helpers({
 	roles: function() {
 		return Roles.getAllRoles();
@@ -23,7 +26,7 @@ Template.updateRolesModalInner.events({
 		});
 	},
 
-	'click .remove-role' : function(event, template) {
+	'click .remove-role' : function(/*event, template*/) {
 		var role = this.name;
 
 		Meteor.call('removeRole', role, function(error) {

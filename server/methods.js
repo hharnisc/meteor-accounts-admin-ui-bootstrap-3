@@ -24,9 +24,6 @@ Meteor.methods({
     if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
       throw new Meteor.Error(401, "You need to be an authenticated admin");
 
-		if (user._id === userId)
-			throw new Meteor.Error(422, 'You can\'t update yourself.');
-
 		// handle invalid role
 		if (Meteor.roles.find({name: role}).count() < 1 )
 			throw new Meteor.Error(422, 'Role ' + role + ' does not exist.');
@@ -46,9 +43,6 @@ Meteor.methods({
 		var user = Meteor.user();
     if (!user || ! AccountsAdmin.checkForAdminAuthentication(user))
       throw new Meteor.Error(401, "You need to be an authenticated admin");
-
-		if (user._id === userId)
-			throw new Meteor.Error(422, 'You can\'t update yourself.');
 
 		// handle invalid role
 		if (Meteor.roles.find({name: role}).count() < 1 )
