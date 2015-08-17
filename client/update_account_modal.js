@@ -100,8 +100,8 @@ Template.updateAccountModalInner.events({
           else Errors.throw(error.reason);
           return;
         }
+        Log.info("User password set");
       });
-
     }
   }
 });
