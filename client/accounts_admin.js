@@ -3,7 +3,7 @@
 
 var getRoles = function(value) {
   if (_.isArray(value)) {
-    return value.join(',');
+    return value.join(', ');
   } else if (_.isObject(value)) {
     var roles = [];
     if (_.isArray(value[Roles.GLOBAL_GROUP])) {
@@ -18,7 +18,7 @@ var getRoles = function(value) {
         });
       }
     });
-    return roles.join(',');
+    return roles.join(', ');
   }
 };
 
@@ -52,8 +52,11 @@ Template.accountsAdmin.helpers({
       label: '',
       tmpl: Template.accountsAdminControlPanel
     }, {
-      key: 'username',
-      label: 'username'
+      key: 'emails.0.address',
+      label: 'Email',
+      fn: function(value, user) {
+        return getEmail(value, user);
+      }
     }, {
       key: 'profile.name',
       label: 'Name'
@@ -61,17 +64,20 @@ Template.accountsAdmin.helpers({
       key: 'profile.businessName',
       label: 'Account Name'
     }, {
-      key: 'emails.0.address',
-      label: 'Email',
-      fn: function(value, user) {
-        return getEmail(value, user);
-      }
-    }, {
       key: 'roles',
       label: 'Roles',
       fn: function(value) {
         return getRoles(value);
       }
+    }, {
+      key: 'profile.businessNeeds',
+      label: 'Business Description',
+    }, {
+      key: 'profile.useCore',
+      label: 'Core',
+    }, {
+      key: 'profile.usePro',
+      label: 'Pro',
     }, {
       key: 'createdAt',
       label: 'Created?',
