@@ -8,6 +8,7 @@ A roles based account management system using bootstrap 3 for Meteor.
 - [History](#history)
 - [Quick Start](#quick-start)
 - [Iron Router Integration](#iron-router-integration)
+- [Configuration & Optional Features](#configuration)
 - [Contributing](#contributing)
 
 ## TODO
@@ -111,7 +112,7 @@ if (Meteor.isClient) {
             </div>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">  
+            <ul class="nav navbar-nav">
             </ul>
             <ul class="nav navbar-nav navbar-right">
             {{> loginButtons }}
@@ -137,9 +138,9 @@ After you edit app.js and app.html you need to create a new user and then set th
 1. Go to [http://localhost:3000](http://localhost:3000) and click on the "Sign In / Up" and create your user there.
 2. In the browser console grab the user id from the user you just created Meteor.userId()
 3. Copy the user id and paste it into to "your_admin_user_id" in app.js created above.
-4. Restart meteor 
+4. Restart meteor
 
-At this point you should see the UI.  Signout and add a few more users so you can play with the roles. You can add and 
+At this point you should see the UI.  Signout and add a few more users so you can play with the roles. You can add and
 remove roles all through the UI.
 
 ## Iron Router Integration
@@ -173,6 +174,69 @@ Router.map(function() {
 	});
 });
 ```
+## Configuration & Optional Features
+
+**Configuration**
+You can optionally configure this beyond the defaults by creating a accountsAdminUiConfiguration object anywhere in
+the server/client shared part of your source code.
+
+To change the number of users shown in the main accounts screen:
+
+```javascript
+accountsAdminUiConfiguration = {
+  maxUsersPerPage: 25, //max users to show in accounts_admin screen
+};
+```
+
+**Impersonation**
+Impersonation allows administrators to become a user without having login credentials for that user.  It's very
+handy for debugging user problems as ad administrator can experience you application as a user does.  Iron Router is
+required for it to automatically change to a different route on successful impersonation.  To enable it you
+need this minimum configuration:
+
+```javascript
+accountsAdminUiConfiguration = {
+  allowImpersonation: true, //true or the feature isn't enabled
+  impersonationRoles: ['admin'], //only this role(s) may use this impersonation feature
+  impersonationSuccessRoute: 'plansList', //once you have successfully impersonated a user, it will Router.go(impersonationSuccessRoute)
+};
+```
+
+You will also want to put your impersonationSuccessRoute subscriptions in an Deps.autorun so that they change when the user changes.
+Something like (though you need to change this for whatever makes sense for your routing configuration):
+```javascript
+this.route('plansList', {
+  onBeforeAction: function () {
+    var self = this;
+    Deps.autorun(function () {
+      var user = Meteor.user();
+      if (user) {
+        logger.debug("Subscribe for business and plans to user: " + user._id);
+        self.subscribe('plans').wait();
+      }
+    });
+  },
+});
+```
+NOTE - This is an adminsitrative feature that allows a privileged user access beyond it's normal user.  Use with caution.
+
+Code inspired by: https://dweldon.silvrback.com/impersonating-a-user
+
+
+**Last login support**
+This feature requires the user-status (mrt add user-status) package.  It shows the last login time for each user along with
+a boolean indicating if they are logged in now.  Enable with this configuration:
+
+```javascript
+accountsAdminUiConfiguration = {
+  userStatus: true, //if true and user-status pacakge installed, this will show last login and current login status
+};
+```
+
+
+
+
+
 
 ## Contributing
 
