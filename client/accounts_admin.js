@@ -126,8 +126,11 @@ Template.accountsAdmin.helpers({
 	content: function() {
 		var t = Template.instance();
 		if(t.content != undefined) return t.content(this);
-		// var baseUrl = '<a href="/account/'+this._id+'/';
-		// return baseUrl+'businesses">'+Businesses.find({userId: this._id}).count()+'</a>/'+baseUrl+'descriptions">'+Descriptions.find({userId: this._id}).count()+'</a>';
+	},
+
+	displayRoles: function() {
+		// console.log(this);
+		return this.roles ? this.roles.join(', ') : '';
 	}
 });
 

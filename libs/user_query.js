@@ -1,4 +1,4 @@
-filteredUserQuery = function(userId, filter, start, limit) {
+filteredUserQuery = function(userId, filter, skip, limit) {
 	// if not an admin user don't show any other user
 	if (!Roles.userIsInRole(userId, ['admin']))
 		return Meteor.users.find(userId);
@@ -6,7 +6,7 @@ filteredUserQuery = function(userId, filter, start, limit) {
 	// TODO: configurable limit and paginiation
 	// var queryLimit = 25;
 	var options = {sort: {'profile.name':1}};
-	if(start) options['skip'] = parseInt(start);
+	if(skip) options['skip'] = parseInt(skip);
 	if(limit) options['limit'] = parseInt(limit);
 	// if(Meteor.isServer) console.log(options);
 	if(!!filter) {

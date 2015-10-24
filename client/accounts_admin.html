@@ -21,13 +21,13 @@
             </div>
         </div>
     </div>
-    <table class='table table-striped'>
+    <table class='table table-striped admin-users'>
         <thead>
             <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Roles</th>
+                <th class="roles-column">Roles</th>
                 {{#each contentColumns}}
                 <th>{{this}}</th>
                 {{/each}}
@@ -54,7 +54,7 @@
                         {{/if}}
                     </td>
                     <td>{{email}}</td>
-                    <td>{{roles}}</td>
+                    <td class="roles-column">{{displayRoles}}</td>
                     {{#each contentColumns}}
                     <td>{{{contentColumn this ..}}}</td>
                     {{/each}}
