@@ -1,23 +1,24 @@
-AdminUsersMaxUsers = 15;
-Session.setDefault('adminUsersPage',1);
+var AdminUsersMaxUsers = 12;
 
 Template.accountsAdmin.onCreated(function(){
 	var template = this;
+    AccountsAdmin.template = this;
 	template.subscription = null;
 	template.maxUsers = new ReactiveVar(0);
 	template.numPages = new ReactiveVar(0);
 	template.skipUsers = new ReactiveVar(0);
+	template.adminUsersPage = new ReactiveVar(1);
 	template.page = new ReactiveVar(0);
 	template.userFilter = new ReactiveVar('');
 
-	// console.log(this.view.name+'.created');
+    if(Meteor.isDevelopment) console.info(this.view.name+'.created');
 
 	Meteor.call('maxUsers', function(err,res) {
 		if(!err) 
 		{
 			template.maxUsers.set(res);
-			var page = Session.get('adminUsersPage');
-			var pages = parseInt(res/AdminUsersMaxUsers);
+			var page = template.adminUsersPage.get();//Session.get('adminUsersPage');
+			var pages = Math.round(res/AdminUsersMaxUsers);
 			if(page>pages) page = 1;
 			template.numPages.set(pages);
 			template.page.set(page);
@@ -29,18 +30,18 @@ Template.accountsAdmin.onCreated(function(){
 
 	template.autorun(function(){
 		var filter = template.userFilter.get();
-		// console.log('accountsAdmin.autorun',filter);
+        //var userInScope = Session.get('userInScope');
 		if(template.subscription) template.subscription.stop();
 
 		if(filter != '')
 		{
-			// console.log('autorun user filter', filter);
+			//console.log('autorun user filter', filter);
 			template.subscription = template.subscribe('filteredUsers', filter);
 		}
 		else
 		{
 			var skip = template.skipUsers.get();
-			// console.log('autorun user subscribe', filter, skip, AdminUsersMaxUsers);
+			//console.log('autorun user subscribe', filter, skip, AdminUsersMaxUsers);
 			template.subscription = template.subscribe('filteredUsers', filter, skip, AdminUsersMaxUsers);
 		}
 	});
@@ -62,14 +63,15 @@ Template.accountsAdmin.onCreated(function(){
 });
 Template.accountsAdmin.onDestroyed(function(){
 	if(this.subscription) this.subscription.stop();
-})
+    AccountsAdmin.template = null;
+});
 Template.accountsAdmin.helpers({
 	users: function() {
 		var template = Template.instance();
 		var start = template.skipUsers.get();
 		var filter = template.userFilter.get();
 		// console.log('users', start, filter);
-		return Meteor.users.find({},{sort:{name:1}});//filteredUserQuery(Meteor.userId());
+		return Meteor.users.find({_subscriptionId: template.subscription.subscriptionId},{sort:{name:1}});
 	},
 	pages: function() {
 		var template = Template.instance();
@@ -155,22 +157,22 @@ Template.accountsAdmin.events({
 		// return false;
 	},
 
-	'click .glyphicon-forward': function(event, template) {
+	'click button.forward': function(event, template) {
 		var page = template.page.get();
 		page++;
 		template.page.set(page);
-		Session.set('adminUsersPage', page);
+		template.adminUsersPage.set(page);
 		template.skipUsers.set( (page-1) * AdminUsersMaxUsers );
-		// console.log((page-1) * AdminUsersMaxUsers, template.skipUsers.get());
+		// console.log('forward',(page-1) * AdminUsersMaxUsers, template.skipUsers.get());
 	},
 
-	'click .glyphicon-backward': function(event, template) {
+	'click button.backward': function(event, template) {
 		var page = template.page.get();
 		page--;
 		template.page.set(page);
-		Session.set('adminUsersPage', page);
+		template.adminUsersPage.set(page);
 		template.skipUsers.set( (page-1) * AdminUsersMaxUsers);
-		// console.log((page-1) * AdminUsersMaxUsers, template.skipUsers.get());
+		// console.log('backward', (page-1) * AdminUsersMaxUsers, template.skipUsers.get());
 	},
 
 	'click .glyphicon-search': function(event, template) {

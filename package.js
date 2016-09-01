@@ -24,6 +24,8 @@ Package.on_use(function (api, where) {
 	api.add_files('client/update_roles_modal.html', 'client');
 	api.add_files('client/update_roles_modal.js', 'client');
 
+    api.export('AccountsAdmin');
+
 	api.add_files('style/style.css', 'client');
 
 	api.add_files('server/startup.js', 'server');
