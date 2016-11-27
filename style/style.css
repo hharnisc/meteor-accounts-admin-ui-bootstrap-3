@@ -25,3 +25,8 @@ table.admin-users thead tr th.roles-column
 	width: 50%;
 	white-space: normal;
 }
+table.admin-users tr td.accountEmail {
+	max-width: 10em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
