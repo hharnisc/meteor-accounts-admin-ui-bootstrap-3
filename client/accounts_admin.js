@@ -71,7 +71,7 @@ Template.accountsAdmin.helpers({
 		var start = template.skipUsers.get();
 		var filter = template.userFilter.get();
 		// console.log('users', start, filter);
-		return Meteor.users.find({_subscriptionId: template.subscription.subscriptionId},{sort:{name:1}});
+		return Meteor.users.find({_subscriptionId: template.subscription.subscriptionId},{sort:{'profile.name':1}});
 	},
 	pages: function() {
 		var template = Template.instance();
@@ -206,7 +206,7 @@ Template.accountsAdmin.events({
 Template.accountsAdmin.onRendered(function() {
 	var template = this;
 
-	var searchElement = document.getElementsByClassName('search-input-filter');
+	var searchElement = template.find('.search-input-filter');
 	if(!searchElement)
 		return;
 	var filterValue = template.userFilter.get();
@@ -215,6 +215,6 @@ Template.accountsAdmin.onRendered(function() {
 	if (filterValue)
 		pos = filterValue.length;
 
-	searchElement[0].focus();
-	searchElement[0].setSelectionRange(pos, pos);
+	searchElement.focus();
+	searchElement.setSelectionRange(pos, pos);
 });
