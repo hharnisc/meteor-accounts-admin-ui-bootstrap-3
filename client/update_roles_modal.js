@@ -1,6 +1,6 @@
 Template.updateRolesModalInner.helpers({
 	roles: function() {
-		return Roles.getAllRoles();
+		return Meteor.roles.find({},{sort:{name:1}}).fetch();//Roles.getAllRoles();
 	},
 	adminRole: function() {
 		return this.name === 'admin';
