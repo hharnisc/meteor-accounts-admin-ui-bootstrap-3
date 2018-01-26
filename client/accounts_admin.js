@@ -11,8 +11,6 @@ Template.accountsAdmin.onCreated(function(){
 	template.page = new ReactiveVar(0);
 	template.userFilter = new ReactiveVar('');
 
-    if(Meteor.isDevelopment) console.info(this.view.name+'.created');
-
 	Meteor.call('maxUsers', function(err,res) {
 		if(!err) 
 		{
@@ -23,6 +21,8 @@ Template.accountsAdmin.onCreated(function(){
 			template.numPages.set(pages);
 			template.page.set(page);
 			template.skipUsers.set( (page-1) * AdminUsersMaxUsers );
+		} else {
+			console.error(err);
 		}
 	});
 
