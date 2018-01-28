@@ -2,49 +2,17 @@ var AdminUsersMaxUsers = 12;
 
 Template.accountsAdmin.onCreated(function(){
 	var template = this;
-    AccountsAdmin.template = this;
+	AccountsAdmin.template = this;
 	template.subscription = null;
 	template.maxUsers = new ReactiveVar(0);
 	template.numPages = new ReactiveVar(0);
 	template.skipUsers = new ReactiveVar(0);
 	template.adminUsersPage = new ReactiveVar(1);
-	template.page = new ReactiveVar(0);
+	template.page = new ReactiveVar(1);
 	template.userFilter = new ReactiveVar('');
-
-	Meteor.call('maxUsers', function(err,res) {
-		if(!err) 
-		{
-			template.maxUsers.set(res);
-			var page = template.adminUsersPage.get();//Session.get('adminUsersPage');
-			var pages = Math.round(res/AdminUsersMaxUsers);
-			if(page>pages) page = 1;
-			template.numPages.set(pages);
-			template.page.set(page);
-			template.skipUsers.set( (page-1) * AdminUsersMaxUsers );
-		} else {
-			console.error(err);
-		}
-	});
-
+	template.roleFilter = new ReactiveVar([]);
+	var numPages = 0;
 	template.subscribe('roles');
-
-	template.autorun(function(){
-		var filter = template.userFilter.get();
-        //var userInScope = Session.get('userInScope');
-		if(template.subscription) template.subscription.stop();
-
-		if(filter != '')
-		{
-			//console.log('autorun user filter', filter);
-			template.subscription = template.subscribe('filteredUsers', filter);
-		}
-		else
-		{
-			var skip = template.skipUsers.get();
-			//console.log('autorun user subscribe', filter, skip, AdminUsersMaxUsers);
-			template.subscription = template.subscribe('filteredUsers', filter, skip, AdminUsersMaxUsers);
-		}
-	});
 
 	template.disablePaging = function(disable) {
 		if(disable)
@@ -60,6 +28,43 @@ Template.accountsAdmin.onCreated(function(){
 			$('.max-users.forward').attr('disabled', page >= pages );
 		}
 	}
+
+	template.autorun(function(){
+		var roles = template.roleFilter.get();
+		template.skipUsers.set(0);
+		template.page.set(1);
+	});
+
+	template.autorun(function(){
+		var filter = template.userFilter.get();
+		var roles = template.roleFilter.get();
+		//var userInScope = Session.get('userInScope');
+		if(template.subscription) template.subscription.stop();
+		if(filter != '')
+		{
+			// console.log('autorun user filter', filter);
+			template.subscription = template.subscribe('filteredUsers', filter,roles);
+		}
+		else
+		{
+			var skip = template.skipUsers.get();
+			//console.log('autorun user subscribe', filter, skip, AdminUsersMaxUsers);
+			template.subscription = template.subscribe('filteredUsers', filter,roles, skip, AdminUsersMaxUsers, function(){
+				var user = Meteor.users.findOne({maxUsers:{$exists:1}});
+				if(user) {
+					var res = user.maxUsers;
+					var pages = Math.round(res/AdminUsersMaxUsers);
+					pages = pages > 0 ? pages : 1;
+					if(pages!=numPages) {
+						template.maxUsers.set(res);
+						numPages=pages;
+						template.numPages.set(pages);
+					}
+				}
+			});
+		}
+	});
+
 });
 Template.accountsAdmin.onDestroyed(function(){
 	if(this.subscription) this.subscription.stop();
@@ -70,6 +75,7 @@ Template.accountsAdmin.helpers({
 		var template = Template.instance();
 		var start = template.skipUsers.get();
 		var filter = template.userFilter.get();
+		var roles = template.roleFilter.get();
 		// console.log('users', start, filter);
 		return Meteor.users.find({_subscriptionId: template.subscription.subscriptionId},{sort:{'profile.name':1}});
 	},
@@ -77,6 +83,7 @@ Template.accountsAdmin.helpers({
 		var template = Template.instance();
 		var page = template.page.get();
 		var pages = template.numPages.get();
+		var roles = template.roleFilter.get();
 		$('.max-users.backward').attr('disabled', page <= 1);
 		$('.max-users.forward').attr('disabled', page >= pages );
 		return pages;
@@ -85,6 +92,7 @@ Template.accountsAdmin.helpers({
 		var template = Template.instance();
 		var page = template.page.get();
 		var pages = template.numPages.get();
+		var roles = template.roleFilter.get();
 		$('.max-users.backward').attr('disabled', page <= 1);
 		$('.max-users.forward').attr('disabled', page >= pages );
 		return page;
@@ -111,7 +119,9 @@ Template.accountsAdmin.helpers({
 		}
 		return "";
 	},
-
+	filteredRoles(){
+		return Template.instance().roleFilter.get().length>0 ? 'btn-danger' : 'btn-default';
+	},
 	searchFilter: function() {
 		var template = Template.instance();
 		return template.userFilter.get();
@@ -133,6 +143,10 @@ Template.accountsAdmin.helpers({
 	displayRoles: function() {
 		// console.log(this);
 		return this.roles ? this.roles.join(', ') : '';
+	},
+
+	instance: function() {
+		return Template.instance();
 	}
 });
 

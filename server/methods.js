@@ -1,8 +1,4 @@
 Meteor.methods({
-	maxUsers: function() {
-		return Meteor.users.find().count();
-	},
-	
 	deleteUser: function(userId) {
 		var user = Meteor.user();
 		if (!user || !Roles.userIsInRole(user, ['admin']))

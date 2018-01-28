@@ -2,7 +2,7 @@ Meteor.publish('roles', function (){
 	return Meteor.roles.find({});
 });
 
-Meteor.publish('filteredUsers', function(filter, skip, limit) {
+Meteor.publish('filteredUsers', function(filter, roles, skip, limit) {
 	var self = this;
 	var users = null;
 	var userId = this.userId;
@@ -24,12 +24,20 @@ Meteor.publish('filteredUsers', function(filter, skip, limit) {
 			]
 		};
 	}
+	if(roles != undefined && roles.length>0) {
+		query['roles']={$all: roles};
+	}
+	// console.log('filteredUsers', query);
+	var maxUsers = Meteor.users.find(query).count();
 	users = Meteor.users.find(query, options).observeChanges({
 		added: function (id, user) {
 			user._subscriptionId = self._subscriptionId;
+			user.maxUsers = maxUsers;
 			self.added('users', id, user);
 		},
 		changed: function (id, fields) {
+			fields._subscriptionId = self._subscriptionId;
+			fields.maxUsers = maxUsers;
 			self.changed('users', id, fields);
 		},
 		removed: function (id) {
