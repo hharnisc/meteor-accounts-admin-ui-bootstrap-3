@@ -10,11 +10,12 @@
                 <!-- </span> -->
                 <button class="btn btn-default max-users forward" disabled="disabled" type="button"><span class="glyphicon glyphicon-forward"></span></button>
                 <button class="btn {{filteredRoles}}" type="button" data-toggle="modal" href="#filterroles">Filter Roles</button>
+                <button class="btn {{filteredStatus}}" type="button" data-toggle="modal" href="#statusFilterModal">Filter Status</button>
             </div>
         </div>
         <div class="Xcol-sm-offset-4 col-sm-8 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6">
             <div class="input-group">
-                <input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
+                <input type="text" class="form-control search-input-filter" value="{{searchFilter}}" placeholder="Search name or email">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
                     <button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>

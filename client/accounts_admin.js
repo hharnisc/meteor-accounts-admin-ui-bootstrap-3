@@ -11,6 +11,7 @@ Template.accountsAdmin.onCreated(function(){
 	template.page = new ReactiveVar(1);
 	template.userFilter = new ReactiveVar('');
 	template.roleFilter = new ReactiveVar([]);
+	template.statusFilter = new ReactiveVar([]);
 	var numPages = 0;
 	template.subscribe('roles');
 
@@ -38,18 +39,19 @@ Template.accountsAdmin.onCreated(function(){
 	template.autorun(function(){
 		var filter = template.userFilter.get();
 		var roles = template.roleFilter.get();
+		var online = template.statusFilter.get();
 		//var userInScope = Session.get('userInScope');
 		if(template.subscription) template.subscription.stop();
 		if(filter != '')
 		{
 			// console.log('autorun user filter', filter);
-			template.subscription = template.subscribe('filteredUsers', filter,roles);
+			template.subscription = template.subscribe('filteredUsers', filter,roles,online);
 		}
 		else
 		{
 			var skip = template.skipUsers.get();
 			//console.log('autorun user subscribe', filter, skip, AdminUsersMaxUsers);
-			template.subscription = template.subscribe('filteredUsers', filter,roles, skip, AdminUsersMaxUsers, function(){
+			template.subscription = template.subscribe('filteredUsers',filter,roles,online,skip,AdminUsersMaxUsers,function(){
 				var user = Meteor.users.findOne({maxUsers:{$exists:1}});
 				if(user) {
 					var res = user.maxUsers;
@@ -59,6 +61,7 @@ Template.accountsAdmin.onCreated(function(){
 						template.maxUsers.set(res);
 						numPages=pages;
 						template.numPages.set(pages);
+						template.page.set(1);
 					}
 				}
 			});
@@ -76,8 +79,27 @@ Template.accountsAdmin.helpers({
 		var start = template.skipUsers.get();
 		var filter = template.userFilter.get();
 		var roles = template.roleFilter.get();
+		var online = template.statusFilter.get();
+		var query = {};
 		// console.log('users', start, filter);
-		return Meteor.users.find({_subscriptionId: template.subscription.subscriptionId},{sort:{'profile.name':1}});
+		// return Meteor.users.find({_subscriptionId: template.subscription.subscriptionId},{sort:{'profile.name':1}});
+		if(!!filter) {
+			// TODO: passing to regex directly could be dangerous
+			query = {
+				$or: [
+					{'profile.name': {$regex: filter, $options: 'i'}},
+					{'emails.address': {$regex: filter, $options: 'i'}}
+				]
+			};
+		}
+		if(roles != undefined && roles.length>0) {
+			query['roles']={$all: roles};
+		}
+		if(online != undefined && online.length>0) {
+			query['status']={$in:online};
+		}
+
+		return Meteor.users.find(query,{sort:{'profile.name':1}});
 	},
 	pages: function() {
 		var template = Template.instance();
@@ -121,6 +143,9 @@ Template.accountsAdmin.helpers({
 	},
 	filteredRoles(){
 		return Template.instance().roleFilter.get().length>0 ? 'btn-danger' : 'btn-default';
+	},
+	filteredStatus(){
+		return Template.instance().statusFilter.get().length>0 ? 'btn-danger' : 'btn-default';
 	},
 	searchFilter: function() {
 		var template = Template.instance();

@@ -2,7 +2,7 @@ Meteor.publish('roles', function (){
 	return Meteor.roles.find({});
 });
 
-Meteor.publish('filteredUsers', function(filter, roles, skip, limit) {
+Meteor.publish('filteredUsers', function(filter, roles, online, skip, limit) {
 	var self = this;
 	var users = null;
 	var userId = this.userId;
@@ -27,16 +27,19 @@ Meteor.publish('filteredUsers', function(filter, roles, skip, limit) {
 	if(roles != undefined && roles.length>0) {
 		query['roles']={$all: roles};
 	}
-	// console.log('filteredUsers', query);
+	if(online != undefined && online.length>0) {
+		query['status']={$in:online};
+	}
+	// console.log('filteredUsers', query,options);
 	var maxUsers = Meteor.users.find(query).count();
 	users = Meteor.users.find(query, options).observeChanges({
 		added: function (id, user) {
-			user._subscriptionId = self._subscriptionId;
+			// user._subscriptionId = self._subscriptionId;
 			user.maxUsers = maxUsers;
 			self.added('users', id, user);
 		},
 		changed: function (id, fields) {
-			fields._subscriptionId = self._subscriptionId;
+			// fields._subscriptionId = self._subscriptionId;
 			fields.maxUsers = maxUsers;
 			self.changed('users', id, fields);
 		},
