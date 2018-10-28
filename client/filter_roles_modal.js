@@ -1,3 +1,5 @@
+import './filter_roles_modal.html';
+
 Template.filterRolesModalInner.onCreated(function(){
 	var template = this;
 	template.original = template.data.parent.roleFilter.get();
@@ -51,7 +53,9 @@ Template.filterStatusModalInner.onCreated(function(){
 Template.filterStatusModalInner.helpers({
 	statusConnection: function() {
 		var template = Template.instance();
-		var statusConnection = [{name:'away'},{name:'offline'},{name:'online'}];
+		//konecty:user-presence
+		//var statusConnection = [{name:'away'},{name:'offline'},{name:'online'}];
+		var statusConnection = [{name:'online'}];
 		statusConnection.forEach(function(status){
 			if(template.selected[status]) status.checked="checked";else status.checked="";
 		})

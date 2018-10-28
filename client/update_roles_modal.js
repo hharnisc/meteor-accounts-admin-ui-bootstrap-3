@@ -1,3 +1,5 @@
+import './update_roles_modal.html';
+
 Template.updateRolesModalInner.helpers({
 	roles: function() {
 		return Meteor.roles.find({},{sort:{name:1}}).fetch();//Roles.getAllRoles();

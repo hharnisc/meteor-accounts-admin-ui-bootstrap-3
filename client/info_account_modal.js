@@ -1,3 +1,5 @@
+import './info_account_modal.html';
+
 Template.infoAccountModalInner.helpers({
 	email: function () {
 		if (this.emails && this.emails.length)

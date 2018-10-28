@@ -1,8 +1,10 @@
+import './accounts_admin.html';
+
 var AdminUsersMaxUsers = 12;
 
 Template.accountsAdmin.onCreated(function(){
 	var template = this;
-	AccountsAdmin.template = this;
+	// AccountsAdmin.template = this;
 	template.subscription = null;
 	template.maxUsers = new ReactiveVar(0);
 	template.numPages = new ReactiveVar(0);
@@ -71,7 +73,7 @@ Template.accountsAdmin.onCreated(function(){
 });
 Template.accountsAdmin.onDestroyed(function(){
 	if(this.subscription) this.subscription.stop();
-    AccountsAdmin.template = null;
+  // AccountsAdmin.template = null;
 });
 Template.accountsAdmin.helpers({
 	users: function() {
@@ -95,9 +97,10 @@ Template.accountsAdmin.helpers({
 		if(roles != undefined && roles.length>0) {
 			query['roles']={$all: roles};
 		}
-		if(online != undefined && online.length>0) {
-			query['status']={$in:online};
-		}
+		
+		// if(online != undefined && online.length>0) {
+		// 	query['status']={$in:online};
+		// }
 
 		return Meteor.users.find(query,{sort:{'profile.name':1}});
 	},

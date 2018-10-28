@@ -1,3 +1,5 @@
+import './delete_account_modal.html';
+
 Template.deleteAccountModalInner.helpers({
 	email: function () {
 		if (this.emails && this.emails.length)

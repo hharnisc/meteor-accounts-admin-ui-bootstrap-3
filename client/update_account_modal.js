@@ -1,3 +1,5 @@
+import './update_account_modal.html';
+
 Template.updateAccountModalInner.helpers({
 	email: function () {
 		if (this.emails && this.emails.length)

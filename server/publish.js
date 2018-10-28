@@ -28,7 +28,18 @@ Meteor.publish('filteredUsers', function(filter, roles, online, skip, limit) {
 		query['roles']={$all: roles};
 	}
 	if(online != undefined && online.length>0) {
-		query['status']={$in:online};
+		// konecty:user-presence
+		// query['status']={$in:online};
+		let q = {
+			// _id: {
+			//   $ne: this.connection.sessionKey // don't publish the current user
+			// },
+			status: 'online', // publish only clients that called 'setPresence'
+			userId: {$exists: 1},
+		};
+		let ids = [...new Set(presences.find(q).map((u)=>{return u.userId}))];
+		// let ids = presences.find(q,{fields:{status:1,userId:1}}).map((u)=>{return u.userId});
+		query['_id'] = {$in: ids}
 	}
 	// console.log('filteredUsers', query,options);
 	var maxUsers = Meteor.users.find(query).count();
