@@ -41,7 +41,7 @@ Template.updateAccountModalInner.events({
 			if (error) {
 				// optionally use a meteor errors package
 				if (typeof Errors === "undefined")
-					Log.error('Error: ' + error.reason);
+					console.error('Error: ' + error.reason);
 				else {
 					Errors.throw(error.reason);
 				}
@@ -59,7 +59,7 @@ Template.updateAccountModalInner.events({
 			if (error) {
 				// optionally use a meteor errors package
 				if (typeof Errors === "undefined")
-					Log.error('Error: ' + error.reason);
+					console.error('Error: ' + error.reason);
 				else {
 					Errors.throw(error.reason);
 				}
@@ -78,7 +78,7 @@ Template.updateAccountModalInner.events({
 		Meteor.call('updateUserInfo', userId, ele.name, ele.value, function(error) {
 			if (error)
 			{
-				if (typeof Errors === "undefined") Log.error('Error: ' + error.reason);
+				if (typeof Errors === "undefined") console.error('Error: ' + error.reason);
 				else Errors.throw(error.reason);
 				return;
 			}
