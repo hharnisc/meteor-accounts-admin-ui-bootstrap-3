@@ -26,9 +26,10 @@ Template.infoAccountModalInner.helpers({
 
 	rolePairs: function() {
 		var pairs = [];
-		if (!this.roles)
+		// console.log(this);
+		// if (!this.roles)
 			pairs.push({key: 'Roles', value: 'None'});
-
+		if(false)
 		for (var role in this.roles) {
 			var r = this.roles[role];
 			if (role === '0') {
