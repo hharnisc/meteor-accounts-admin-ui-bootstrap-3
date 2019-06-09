@@ -2,6 +2,7 @@
 // for client use
 // import 'meteor/jamgold:accounts-admin-ui-bootstrap-3';
 //
+// console.log(__filename);
 import './style/style.css';
 import './client/accounts_admin.js';
 import './client/delete_account_modal.js';
