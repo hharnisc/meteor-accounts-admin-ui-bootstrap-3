@@ -13,7 +13,7 @@ Package.on_use(function (api, where) {
 	api.versionsFrom("METEOR@0.9.0");
   api.use(['ecmascript','blaze-html-templates' ]);
 	api.use("alanning:roles@1.2.16", ['client', 'server']);
-
+	api.imply(["session","reactive-var"],"client");
 	api.add_files('libs/user_query.js', ['client', 'server']);
 
 	api.mainModule('index.js', 'client', {lazy:true});
