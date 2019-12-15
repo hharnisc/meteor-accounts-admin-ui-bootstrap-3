@@ -1,8 +1,21 @@
 <template name="accountsAdmin">
     <div class="row accounts-search">
-        <div class="col-sm-offset-4 col-sm-8 col-md-offset-6 col-md-6 col-lg-offset-8 col-lg-4">
+        <div class="col-sm-4 col-md-4 col-lg-4">
             <div class="input-group">
-                <input type="text" class="form-control search-input-filter" value="{{searchFilter}}">
+                <button class="btn btn-default max-users backward" disabled="disabled" type="button"><span class="glyphicon glyphicon-backward"></span></button>
+                <!-- <input type="number" class="form-control start-users max-users" value="{{skipUsers}}"> -->
+                <!-- <span class="input-group-btn"> -->
+                    <!-- <button class="btn btn-default max-users" type="button"><span class="glyphicon glyphicon-user"></span></button> -->
+                    <label class="btn btn-default max-users" type="button">{{page}} of {{pages}}</label>
+                <!-- </span> -->
+                <button class="btn btn-default max-users forward" disabled="disabled" type="button"><span class="glyphicon glyphicon-forward"></span></button>
+                <button class="btn {{filteredRoles}}" type="button" data-toggle="modal" href="#filterroles">Filter Roles</button>
+                <button class="btn {{filteredStatus}}" type="button" data-toggle="modal" href="#statusFilterModal">Filter Status</button>
+            </div>
+        </div>
+        <div class="Xcol-sm-offset-4 col-sm-8 col-md-offset-2 col-md-6 col-lg-offset-2 col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control search-input-filter" value="{{searchFilter}}" placeholder="Search name or email">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
                     <button class="btn btn-default" type="button" data-toggle="modal" href="#updateroles">Manage Roles</button>
@@ -10,24 +23,30 @@
             </div>
         </div>
     </div>
-    <table class='table table-striped'>
+    <table class='table table-striped admin-users'>
         <thead>
             <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Roles</th>
+                <th class="roles-column">Roles</th>
+                {{#each contentColumns}}
+                <th>{{this}}</th>
+                {{/each}}
             </tr>
         </thead>
         <tbody>
             {{#each users}}
                 <tr class="{{#if myself _id}}info{{/if}}">
                     <td>
-                        {{#unless myself _id}}
+                        {{#if myself _id}}
+                            <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
+                            <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
+                        {{else}}
                             <span data-toggle="modal" href="#deleteaccount" class="glyphicon glyphicon-trash clickable"></span>
                             <span data-toggle="modal" href="#updateaccount" class="glyphicon glyphicon-pencil clickable"></span>
                             <span data-toggle="modal" href="#infoaccount" class="glyphicon glyphicon-info-sign clickable"></span>
-                        {{/unless}}
+                        {{/if}}
                     </td>
                     <td>
                         {{#if profile.name}}
@@ -36,8 +55,11 @@
                             {{email}}
                         {{/if}}
                     </td>
-                    <td>{{email}}</td>
-                    <td>{{roles}}</td>
+                    <td class="accountEmail">{{email}}</td>
+                    <td class="roles-column">{{displayRoles}}</td>
+                    {{#each contentColumns}}
+                    <td>{{{contentColumn this ..}}}</td>
+                    {{/each}}
                 </tr>
             {{/each}}
         </tbody>
@@ -46,4 +68,5 @@
     {{> deleteAccountModal}}
     {{> infoAccountModal}}
     {{> updateAccountModal}}
+    {{> filterRolesModal parent=instance}}
 </template>

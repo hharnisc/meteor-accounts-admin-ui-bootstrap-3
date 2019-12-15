@@ -1,6 +1,8 @@
+import './update_roles_modal.html';
+
 Template.updateRolesModalInner.helpers({
 	roles: function() {
-		return Roles.getAllRoles();
+		return Meteor.roles.find({},{sort:{name:1}}).fetch();//Roles.getAllRoles();
 	},
 	adminRole: function() {
 		return this.name === 'admin';
@@ -14,7 +16,7 @@ Template.updateRolesModalInner.events({
 			if (error) {
 				// optionally use a meteor errors package
 				if (typeof Errors === "undefined")
-					Log.error('Error: ' + error.reason);
+					console.error('Error: ' + error.reason);
 				else {
 					Errors.throw(error.reason);
 				}
@@ -30,7 +32,7 @@ Template.updateRolesModalInner.events({
 			if (error) {
 				// optionally use a meteor errors package
 				if (typeof Errors === "undefined")
-					Log.error('Error: ' + error.reason);
+					console.error('Error: ' + error.reason);
 				else {
 					Errors.throw(error.reason);
 				}
@@ -52,7 +54,7 @@ Template.updateRolesModalInner.events({
 				if (error) {
 					// optionally use a meteor errors package
 					if (typeof Errors === "undefined")
-						Log.error('Error: ' + error.reason);
+						console.error('Error: ' + error.reason);
 					else {
 						Errors.throw(error.reason);
 					}

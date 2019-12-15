@@ -1,0 +1,48 @@
+<template name="filterRolesModal">
+	<div id="filterroles" class="modal fade" tabindex="-1" data-width="760" style="display:none;">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				{{> filterRolesModalInner parent=parent}}
+			</div>
+		</div>
+	</div>
+	<div id="statusFilterModal" class="modal fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				{{> filterStatusModalInner parent=parent}}
+			</div>
+		</div>
+	</div>
+</template>
+
+<template name="filterRolesModalInner">
+	<div class="modal-header">
+		<h4>Filter Roles</h4>
+	</div>
+ 	<div class="modal-body">
+			{{#each roles}}
+			<label class="checkbox-inline">
+				<input type="checkbox" class="role" {{this.checked}} value="{{this.name}}">{{this.name}}
+			</label>
+			{{/each}}
+ 	</div>
+ 	<div class="modal-footer">
+		<button type="button" data-dismiss="modal" class="btn btn-primary">Done</button>
+	</div>
+</template>
+
+<template name="filterStatusModalInner">
+	<div class="modal-header">
+		<h4>Filter Status</h4>
+	</div>
+ 	<div class="modal-body">
+			{{#each statusConnection}}
+			<label class="checkbox-inline">
+				<input type="checkbox" class="status" {{this.checked}} value="{{this.name}}">{{this.name}}
+			</label>
+			{{/each}}
+ 	</div>
+ 	<div class="modal-footer">
+		<button type="button" data-dismiss="modal" class="btn btn-primary">Done</button>
+	</div>
+</template>

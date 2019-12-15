@@ -1,3 +1,5 @@
+import './delete_account_modal.html';
+
 Template.deleteAccountModalInner.helpers({
 	email: function () {
 		if (this.emails && this.emails.length)
@@ -28,12 +30,12 @@ Template.deleteAccountModalInner.events({
 			if (error) {
 				// optionally use a meteor errors package
 				if (typeof Errors === "undefined")
-					Log.error('Error: ' + error.reason);
+					console.error('Error: ' + error.reason);
 				else {
 					Errors.throw(error.reason);
 				}
 			}
-			$("#deleteaccount").modal("hide");
+			template.$("button.btn-default").trigger('click');
 		});
 	}
 });

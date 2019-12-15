@@ -1,3 +1,5 @@
+import './update_account_modal.html';
+
 Template.updateAccountModalInner.helpers({
 	email: function () {
 		if (this.emails && this.emails.length)
@@ -34,16 +36,16 @@ Template.updateAccountModalInner.events({
 	'click .add-role': function(event, template) {
 		var role = this.toString();
 		var userId = event.currentTarget.getAttribute('data-user-id');
+
 		Meteor.call('addUserRole', userId, role, function(error) {
 			if (error) {
 				// optionally use a meteor errors package
 				if (typeof Errors === "undefined")
-					Log.error('Error: ' + error.reason);
+					console.error('Error: ' + error.reason);
 				else {
 					Errors.throw(error.reason);
 				}
 			}
-
 			//update the data in the session variable to update modal templates
 			Session.set('userInScope', Meteor.users.findOne(userId));
 		});
@@ -57,7 +59,7 @@ Template.updateAccountModalInner.events({
 			if (error) {
 				// optionally use a meteor errors package
 				if (typeof Errors === "undefined")
-					Log.error('Error: ' + error.reason);
+					console.error('Error: ' + error.reason);
 				else {
 					Errors.throw(error.reason);
 				}
@@ -76,7 +78,7 @@ Template.updateAccountModalInner.events({
 		Meteor.call('updateUserInfo', userId, ele.name, ele.value, function(error) {
 			if (error)
 			{
-				if (typeof Errors === "undefined") Log.error('Error: ' + error.reason);
+				if (typeof Errors === "undefined") console.error('Error: ' + error.reason);
 				else Errors.throw(error.reason);
 				return;
 			}

@@ -16,8 +16,8 @@ Meteor.methods({
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
 
-		if (user._id == userId)
-			throw new Meteor.Error(422, 'You can\'t update yourself.');
+		// if (user._id == userId)
+		// 	throw new Meteor.Error(422, 'You can\'t update yourself.');
 
 		// handle invalid role
 		if (Meteor.roles.find({name: role}).count() < 1 )
@@ -36,8 +36,8 @@ Meteor.methods({
 		if (!user || !Roles.userIsInRole(user, ['admin']))
 			throw new Meteor.Error(401, "You need to be an admin to update a user.");
 
-		if (user._id == userId)
-			throw new Meteor.Error(422, 'You can\'t update yourself.');
+		// if (user._id == userId)
+		// 	throw new Meteor.Error(422, 'You can\'t update yourself.');
 
 		// handle invalid role
 		if (Meteor.roles.find({name: role}).count() < 1 )
